@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const PORTID = document.getElementById("port");
   const Datos = document.getElementById("Datos");
   const toggleBtn = document.getElementById("Modo Oscuro");
-  const logo = document.getElementById("logoTCEM");
   const Graficar1 = document.getElementById("btnGraficarTabla1");
   const Graficar2 = document.getElementById("btnGraficarTabla2");
   const tablaBody1 = document.querySelector("#tablaValores1 tbody");
@@ -73,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function aplicarTema(modoOscuro) {
     if (modoOscuro) {
       document.body.classList.add("dark-mode");
-      logo.src = "Portada TCEM3.png";
       toggleBtn.classList.remove("tema-claro");
       toggleBtn.classList.add("tema-oscuro");
       iconoModo.textContent = "☀️";
@@ -86,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
       myChart.options.plugins.legend.labels.color = "rgb(255, 255, 255)";
     } else {
       document.body.classList.remove("dark-mode");
-      logo.src = "Portada TCEM3.png";
       toggleBtn.classList.remove("tema-oscuro");
       toggleBtn.classList.add("tema-claro");
       iconoModo.textContent = "🌙";
@@ -183,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let lines = estado.buffer.split("\n");
       estado.buffer = lines.pop();
-
+      print(lines);
       lines.forEach(line => {
         const data = line.trim();
         if (!data) return;
