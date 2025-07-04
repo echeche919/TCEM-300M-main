@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     dataVector2: [],
     receivingVector: 1
   };
-  const Bandas = ["ULF", "VLF", "LF", "MF", "HF", "VHF"];
+  const numValores = 30;
+  const Bandas = ["1", "2", "3", "4", "5", "6"];
   const Frecuencia = ["300-3000 HZ", "3-30 KHz", "30-300 KHz", "300-3000 KHz", "3-30 MHz", "30-300 KHz"];
   const ESP = [
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
@@ -39,11 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Chart ---
   const myChart = new Chart(ctx, {
-    type: "bar",
+    type: "line",
     data: {
-      labels: Bandas,
+      labels: [],
       datasets: [{
-        label: 'V/M',
         backgroundColor: "rgba(0, 0, 255, 0.6)",
         data: []
       }]
@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
         y: {
           beginAtZero: true,
           max: 10,
-          title: { display: true, text: 'V/M', color: "#222" },
+          title: { display: true, text: 'Aceleracion', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
-          title: { display: true, text: 'KHz', color: "#222" },
+          title: { display: true, text: 'Segundos', color: "#222" },
           ticks: { color: "#222" }
         }
       },
@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
           Datos.disabled = false;
           PORTID.textContent = `TCEM 300M conectado en ${matchingPort.path}`;
           PORTID.className = "badge bg-success text-light p-2 fs-6";
+          console.log("Leyendo datos");
           LecturaData();
         });
 
@@ -164,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dataArray.forEach((valor, i) => {
       tablaBody.insertAdjacentHTML("beforeend", `
         <tr>
-          <td>${bandas[i]}</td>
+          <td>${i}</td>
           <td>${frecuencias[i]}</td>
           <td>${valor.toFixed(3)}</td>
         </tr>
@@ -174,13 +175,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function LecturaData() {
     estado.port.on("readable", () => {
+
       let chunk = estado.port.read();
+
+      if (estado.dataVector1.length >= numValores) return;
       if (!chunk) return;
       estado.buffer += chunk.toString();
 
       let lines = estado.buffer.split("\n");
       estado.buffer = lines.pop();
-      print(lines);
+      console.log("LecturaData: ", lines);
       lines.forEach(line => {
         const data = line.trim();
         if (!data) return;
@@ -194,13 +198,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const numericData = parseFloat(data);
-        if (isNaN(numericData)) return;
+        if (isNaN(numericData)) {
+          return;
+        }
+        console.log("Para mi retorna aca: ", estado.dataVector1);
 
-        if (estado.receivingVector === 1 && estado.dataVector1.length < Bandas.length) {
+        if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
           estado.dataVector1.push(numericData);
           actualizarTabla(tablaBody1, estado.dataVector1, Bandas, Frecuencia);
           if (estado.dataVector1.length === Bandas.length) Graficar1.disabled = false;
-        } else if (estado.receivingVector === 2 && estado.dataVector2.length < Bandas.length) {
+        } else if (estado.receivingVector === 2/* && estado.dataVector2.length < Bandas.length*/) {
           estado.dataVector2.push(numericData);
           actualizarTabla(tablaBody2, estado.dataVector2, Bandas, Frecuencia);
           if (estado.dataVector2.length === Bandas.length) Graficar2.disabled = false;
