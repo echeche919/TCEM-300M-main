@@ -6,28 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
     buffer: "",
     port: null,
     dataVector1: [],
-    dataVector2: [],
-    receivingVector: 1
+    receivingVector: 1,
+    aux: 0
   };
-  const numValores = 30;
-  const Bandas = ["1", "2", "3", "4", "5", "6"];
-  const Frecuencia = ["300-3000 HZ", "3-30 KHz", "30-300 KHz", "300-3000 KHz", "3-30 MHz", "30-300 KHz"];
+  const numValores = 50;
   const ESP = [
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
   ];
 
-  // --- Elementos UI ---
+  // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
   const Datos = document.getElementById("Datos");
   const toggleBtn = document.getElementById("Modo Oscuro");
   const Graficar1 = document.getElementById("btnGraficarTabla1");
-  const Graficar2 = document.getElementById("btnGraficarTabla2");
   const tablaBody1 = document.querySelector("#tablaValores1 tbody");
-  const tablaBody2 = document.querySelector("#tablaValores2 tbody");
   const iconoModo = document.getElementById("icono-modo");
   const textoModo = document.getElementById("texto-modo");
   const ctx = document.getElementById("myChart").getContext("2d");
+  const ctx2 = document.getElementById("myChart2").getContext("2d");
+  const ctx3 = document.getElementById("myChart3").getContext("2d");
 
   // --- Inicialización UI ---
   function inicializarUI() {
@@ -35,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
     Datos.disabled = true;
     Graficar1.disabled = true;
-    Graficar2.disabled = true;
   }
 
   // --- Chart ---
@@ -45,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
       labels: [],
       datasets: [{
         backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
         data: []
       }]
     },
@@ -53,11 +52,80 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 10,
+          max: 20,
+          min: -20,
           title: { display: true, text: 'Aceleracion', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
+          beginAtZero: true,
+          max: 50,
+          title: { display: true, text: 'Segundos', color: "#222" },
+          ticks: { color: "#222" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#222" } }
+      }
+    }
+  });
+  const myChart2 = new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+        data: []
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 20,
+          min: -20,
+          title: { display: true, text: 'Aceleracion', color: "#222" },
+          ticks: { color: "#222" }
+        },
+        x: {
+          beginAtZero: true,
+          max: 50,
+          title: { display: true, text: 'Segundos', color: "#222" },
+          ticks: { color: "#222" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#222" } }
+      }
+    }
+  });
+  const myChart3 = new Chart(ctx3, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+        data: []
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 20,
+          min: -20,
+          title: { display: true, text: 'Aceleracion', color: "#222" },
+          ticks: { color: "#222" }
+        },
+        x: {
+          beginAtZero: true,
+          max: 50,
           title: { display: true, text: 'Segundos', color: "#222" },
           ticks: { color: "#222" }
         }
@@ -160,13 +228,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Tablas y datos ---
-  function actualizarTabla(tablaBody, dataArray, bandas, frecuencias) {
+  function actualizarTabla(tablaBody, dataArray) {
     tablaBody.innerHTML = "";
     dataArray.forEach((valor, i) => {
       tablaBody.insertAdjacentHTML("beforeend", `
         <tr>
           <td>${i}</td>
-          <td>${frecuencias[i]}</td>
           <td>${valor.toFixed(3)}</td>
         </tr>
       `);
@@ -175,65 +242,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function LecturaData() {
     estado.port.on("readable", () => {
-
       let chunk = estado.port.read();
-
       if (estado.dataVector1.length >= numValores) return;
       if (!chunk) return;
       estado.buffer += chunk.toString();
-
       let lines = estado.buffer.split("\n");
       estado.buffer = lines.pop();
-      console.log("LecturaData: ", lines);
       lines.forEach(line => {
         const data = line.trim();
         if (!data) return;
-
-        if (data.toUpperCase() === "VECTOR2") {
-          estado.receivingVector = 2;
-          return;
-        } else if (data.toUpperCase() === "VECTOR1") {
+        if (data.toUpperCase() === "VECTOR1") {
           estado.receivingVector = 1;
           return;
         }
-
         const numericData = parseFloat(data);
         if (isNaN(numericData)) {
           return;
         }
-        console.log("Para mi retorna aca: ", estado.dataVector1);
-
         if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
           estado.dataVector1.push(numericData);
-          actualizarTabla(tablaBody1, estado.dataVector1, Bandas, Frecuencia);
-          if (estado.dataVector1.length === Bandas.length) Graficar1.disabled = false;
-        } else if (estado.receivingVector === 2/* && estado.dataVector2.length < Bandas.length*/) {
-          estado.dataVector2.push(numericData);
-          actualizarTabla(tablaBody2, estado.dataVector2, Bandas, Frecuencia);
-          if (estado.dataVector2.length === Bandas.length) Graficar2.disabled = false;
+          actualizarTabla(tablaBody1, estado.dataVector1);
+          Graficar(estado.dataVector1, estado.aux)
+          if (estado.dataVector1.length === numValores) Graficar1.disabled = false;
         }
       });
     });
   }
 
   function Graficar(dataArray, label) {
+    console.log("button pressed");
+    myChart.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
     myChart.data.datasets[0].data = dataArray.slice();
     myChart.data.datasets[0].label = label;
     myChart.update();
+    estado.aux++;
   }
 
   // --- Eventos UI ---
   Datos.addEventListener("click", () => {
     if (estado.port && estado.port.writable) {
       estado.dataVector1 = [];
-      estado.dataVector2 = [];
       estado.receivingVector = 1;
       Graficar1.disabled = true;
-      Graficar2.disabled = true;
       myChart.data.datasets[0].data = [];
       myChart.update();
       tablaBody1.innerHTML = "";
-      tablaBody2.innerHTML = "";
 
       estado.port.write("START\n", (err) => {
         if (err) {
@@ -246,12 +299,6 @@ document.addEventListener("DOMContentLoaded", () => {
   Graficar1.addEventListener("click", () => {
     if (estado.dataVector1.length > 0) {
       Graficar(estado.dataVector1, "Tabla 1");
-    }
-  });
-
-  Graficar2.addEventListener("click", () => {
-    if (estado.dataVector2.length > 0) {
-      Graficar(estado.dataVector2, "Tabla 2");
     }
   });
 
