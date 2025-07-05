@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     buffer: "",
     port: null,
     dataVector1: [],
+    dataVector2: [],
+    dataVector3: [],
     receivingVector: 1,
     aux: 0
   };
@@ -251,8 +253,15 @@ document.addEventListener("DOMContentLoaded", () => {
       lines.forEach(line => {
         const data = line.trim();
         if (!data) return;
-        if (data.toUpperCase() === "VECTOR1") {
+        console.log("Data received:", data);
+        if (data.toUpperCase() === "ACELZ") {
           estado.receivingVector = 1;
+          return;
+        } else if (data.toUpperCase() === "ACELY") {
+          estado.receivingVector = 2;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 3;
           return;
         }
         const numericData = parseFloat(data);
@@ -264,17 +273,40 @@ document.addEventListener("DOMContentLoaded", () => {
           actualizarTabla(tablaBody1, estado.dataVector1);
           Graficar(estado.dataVector1, estado.aux)
           if (estado.dataVector1.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
+          estado.dataVector2.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector2);
+          Graficar2(estado.dataVector2, estado.aux)
+          if (estado.dataVector2.length === numValores) Graficar2.disabled = false;
+        } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
+          estado.dataVector3.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector3);
+          Graficar3(estado.dataVector3, estado.aux)
+          if (estado.dataVector3.length === numValores) Graficar3.disabled = false;
         }
       });
     });
   }
 
   function Graficar(dataArray, label) {
-    console.log("button pressed");
     myChart.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
     myChart.data.datasets[0].data = dataArray.slice();
     myChart.data.datasets[0].label = label;
     myChart.update();
+    estado.aux++;
+  }
+  function Graficar2(dataArray, label) {
+    myChart2.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    myChart2.data.datasets[0].data = dataArray.slice();
+    myChart2.data.datasets[0].label = label;
+    myChart2.update();
+    estado.aux++;
+  }
+  function Graficar3(dataArray, label) {
+    myChart3.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    myChart3.data.datasets[0].data = dataArray.slice();
+    myChart3.data.datasets[0].label = label;
+    myChart3.update();
     estado.aux++;
   }
 
