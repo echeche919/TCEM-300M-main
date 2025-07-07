@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     port: null,
     dataVector1: [],
     dataVector2: [],
-    dataVector3: [],
+    dataVector4: [],
+    dataVector5: [],
+    dataVector6: [],
+    dataVector: [],
     receivingVector: 1,
     aux: 0
   };
@@ -28,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = document.getElementById("myChart").getContext("2d");
   const ctx2 = document.getElementById("myChart2").getContext("2d");
   const ctx3 = document.getElementById("myChart3").getContext("2d");
+  const ctx4 = document.getElementById("myChart4").getContext("2d");
+  const ctx5 = document.getElementById("myChart5").getContext("2d");
+  const ctx6 = document.getElementById("myChart6").getContext("2d");
 
   // --- Inicialización UI ---
   function inicializarUI() {
@@ -54,9 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 20,
-          min: -20,
-          title: { display: true, text: 'Aceleracion', color: "#222" },
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Aceleracion Z', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -87,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 20,
-          min: -20,
-          title: { display: true, text: 'Aceleracion', color: "#222" },
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Aceleracion Y', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -120,9 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 20,
-          min: -20,
-          title: { display: true, text: 'Aceleracion', color: "#222" },
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Aceleracion X', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -137,7 +143,105 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
+  const myChart4 = new Chart(ctx4, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+        data: []
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Giroscopio X', color: "#222" },
+          ticks: { color: "#222" }
+        },
+        x: {
+          beginAtZero: true,
+          max: 50,
+          title: { display: true, text: 'Segundos', color: "#222" },
+          ticks: { color: "#222" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#222" } }
+      }
+    }
+  });
+  const myChart5 = new Chart(ctx5, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+        data: []
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Giroscopio Y', color: "#222" },
+          ticks: { color: "#222" }
+        },
+        x: {
+          beginAtZero: true,
+          max: 50,
+          title: { display: true, text: 'Segundos', color: "#222" },
+          ticks: { color: "#222" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#222" } }
+      }
+    }
+  });
+  const myChart6 = new Chart(ctx6, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+        data: []
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          ticks: { color: "#222" }
+        },
+        x: {
+          beginAtZero: true,
+          max: 50,
+          title: { display: true, text: 'Segundos', color: "#222" },
+          ticks: { color: "#222" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#222" } }
+      }
+    }
+  });
   // --- Tema ---
   function aplicarTema(modoOscuro) {
     if (modoOscuro) {
@@ -260,8 +364,17 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (data.toUpperCase() === "ACELY") {
           estado.receivingVector = 2;
           return;
-        } else if (data.toUpperCase() === "GYROZ") {
+        } else if (data.toUpperCase() === "ACELX") {
           estado.receivingVector = 3;
+          return;
+        } else if (data.toUpperCase() === "GYROX") {
+          estado.receivingVector = 4;
+          return;
+        } else if (data.toUpperCase() === "GYROY") {
+          estado.receivingVector = 5;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 6;
           return;
         }
         const numericData = parseFloat(data);
@@ -283,6 +396,21 @@ document.addEventListener("DOMContentLoaded", () => {
           actualizarTabla(tablaBody1, estado.dataVector3);
           Graficar3(estado.dataVector3, estado.aux)
           if (estado.dataVector3.length === numValores) Graficar3.disabled = false;
+        } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
+          estado.dataVector4.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector4);
+          Graficar4(estado.dataVector4, estado.aux)
+          if (estado.dataVector4.length === numValores) Graficar4.disabled = false;
+        } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
+          estado.dataVector5.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector5);
+          Graficar5(estado.dataVector5, estado.aux)
+          if (estado.dataVector5.length === numValores) Graficar5.disabled = false;
+        } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
+          estado.dataVector6.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector6);
+          Graficar6(estado.dataVector6, estado.aux)
+          if (estado.dataVector6.length === numValores) Graficar6.disabled = false;
         }
       });
     });
@@ -307,6 +435,27 @@ document.addEventListener("DOMContentLoaded", () => {
     myChart3.data.datasets[0].data = dataArray.slice();
     myChart3.data.datasets[0].label = label;
     myChart3.update();
+    estado.aux++;
+  }
+  function Graficar4(dataArray, label) {
+    myChart4.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    myChart4.data.datasets[0].data = dataArray.slice();
+    myChart4.data.datasets[0].label = label;
+    myChart4.update();
+    estado.aux++;
+  }
+  function Graficar5(dataArray, label) {
+    myChart5.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    myChart5.data.datasets[0].data = dataArray.slice();
+    myChart5.data.datasets[0].label = label;
+    myChart5.update();
+    estado.aux++;
+  }
+  function Graficar6(dataArray, label) {
+    myChart6.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    myChart6.data.datasets[0].data = dataArray.slice();
+    myChart6.data.datasets[0].label = label;
+    myChart6.update();
     estado.aux++;
   }
 
