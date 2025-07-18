@@ -10,6 +10,7 @@ body.dark-mode {
   color: #eee;
 }
 
+
 body.dark-mode table.table {
   background-color: #222;
   color: #eee;
@@ -94,7 +95,7 @@ body.dark-mode .badge.bg-danger {
 }
 
 .d-inline-flex.p-2.bd-highlight {
-  height: 300px;
+  height: 50%;
   overflow: auto;
 }
 

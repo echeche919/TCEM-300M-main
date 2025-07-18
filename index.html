@@ -19,7 +19,7 @@
   <header>
     <div class="d-flex align-items-center">
 
-      <img id="logoTCEM" src="Portada TCEM.png" alt="TCEM Logo" style="height: 50px; width: auto;" />
+      <img id="logoTCEM" src="icon.png" alt="TCEM Logo" style="height: 50px; width: auto;" />
 
       <div style="width: 50px;"></div>
   </header>
@@ -39,81 +39,91 @@
 
   <div class="row align-items-center">
     <div class="col">
-      <canvas id="myChart" width="100%" height="20%"></canvas>
-      <canvas id="myChart2" width="100%" height="20%"></canvas>
-      <canvas id="myChart3" width="100%" height="20%"></canvas>
+      <canvas id="myChart" width="2000px" height="400px"></canvas>
+      <canvas id="myChart2" width="2000px" height="400px"></canvas>
+      <canvas id="myChart3" width="2000px" height="400px"></canvas>
     </div>
     <div class="col">
-      <canvas id="myChart4" width="100%" height="20%"></canvas>
-      <canvas id="myChart5" width="100%" height="20%"></canvas>
-      <canvas id="myChart6" width="100%" height="20%"></canvas>
+      <canvas id="myChart4" width="2000px" height="400px"></canvas>
+      <canvas id="myChart5" width="2000px" height="400px"></canvas>
+      <canvas id="myChart6" width="2000px" height="400px"></canvas>
     </div>
-
-
-
-    <div class="d-flex justify-content-center">
-      <button id="btnGraficarTabla1" class="btn btn-success" disabled>
-        Graficar
-      </button>
+    <hr>
+    <div class="col">
+      <canvas id="myChart7" width="2000px" height="400px"></canvas>
+      <canvas id="myChart8" width="2000px" height="400px"></canvas>
+      <canvas id="myChart9" width="2000px" height="400px"></canvas>
     </div>
-    <div class="row mt-5">
-      <div class="d-inline-flex p-2 bd-highlight">
-        <table id="tablaValores1" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <table id="tablaValores2" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <table id="tablaValores3" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <table id="tablaValores4" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <table id="tablaValores5" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <table id="tablaValores6" class="table">
-          <thead class="table-dark">
-            <tr>
-              <th style="width: 50%;">Bandas</th>
-              <th style="width: 50%;">Valor [V/M]</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <div class="col">
+      <canvas id="myChart10" width="2000px" height="400px"></canvas>
+      <canvas id="myChart11" width="2000px" height="400px"></canvas>
+      <canvas id="myChart12" width="2000px" height="400px"></canvas>
     </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <button id="btnGraficarTabla1" class="btn btn-success" disabled>
+      Graficar
+    </button>
+  </div>
+  <div class="row mt-5">
+    <div class="d-inline-flex p-2 bd-highlight">
+      <table id="tablaValores1" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores2" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores3" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores4" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores5" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores6" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Bandas</th>
+            <th style="width: 50%;">Valor [V/M]</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
   </div>
   </div>
 
