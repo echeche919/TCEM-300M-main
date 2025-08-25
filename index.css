@@ -10,6 +10,10 @@ body.dark-mode {
   color: #eee;
 }
 
+.col {
+  flex: auto;
+  width: 50%;
+}
 
 body.dark-mode table.table {
   background-color: #222;
@@ -71,7 +75,6 @@ body.dark-mode .badge.bg-danger {
   background: rgba(0, 0, 0, 0.02);
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  margin-bottom: 2rem;
 }
 
 #Modo\ Oscuro {

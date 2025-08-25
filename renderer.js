@@ -180,8 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 360,
+          min: -360,
           title: { display: true, text: 'Giroscopio X', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -279,9 +279,9 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          max: 15,
+          min: -15,
+          title: { display: true, text: 'Acelerometro Z', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
           beginAtZero: true,
           max: 15,
           min: -15,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          title: { display: true, text: 'Acelerometro X', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
           beginAtZero: true,
           max: 15,
           min: -15,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          title: { display: true, text: 'Acelerometro Y', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
           beginAtZero: true,
           max: 360,
           min: -360,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          title: { display: true, text: 'Giroscopio X', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
           beginAtZero: true,
           max: 360,
           min: -360,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
+          title: { display: true, text: 'Giroscopio Y', color: "#222" },
           ticks: { color: "#222" }
         },
         x: {
@@ -788,11 +788,110 @@ document.addEventListener("DOMContentLoaded", () => {
   Datos.addEventListener("click", () => {
     if (estado.port && estado.port.writable) {
       estado.dataVector1 = [];
-      estado.receivingVector = 1;
+      estado.dataVector2 = [];
+      estado.dataVector3 = [];
+      estado.dataVector4 = [];
+      estado.dataVector5 = [];
+      estado.dataVector6 = [];
+      estado.dataVector7 = [];
+      estado.dataVector8 = [];
+      estado.dataVector9 = [];
+      estado.dataVector10 = [];
+      estado.dataVector11 = [];
+      estado.dataVector12 = [];
+
+      if (estado.MPU === 1) {
+        if (data.toUpperCase() === "ACELZ") {
+          estado.receivingVector = 1;
+          return;
+        } else if (data.toUpperCase() === "ACELY") {
+          estado.receivingVector = 2;
+          return;
+        } else if (data.toUpperCase() === "ACELX") {
+          estado.receivingVector = 3;
+          return;
+        } else if (data.toUpperCase() === "GYROX") {
+          estado.receivingVector = 4;
+          return;
+        } else if (data.toUpperCase() === "GYROY") {
+          estado.receivingVector = 5;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 6;
+          return;
+        }
+      } else if (estado.MPU === 2) {
+        if (data.toUpperCase() === "ACELZ") {
+          estado.receivingVector = 7;
+          return;
+        } else if (data.toUpperCase() === "ACELY") {
+          estado.receivingVector = 8;
+          return;
+        } else if (data.toUpperCase() === "ACELX") {
+          estado.receivingVector = 9;
+          return;
+        } else if (data.toUpperCase() === "GYROX") {
+          estado.receivingVector = 10;
+          return;
+        } else if (data.toUpperCase() === "GYROY") {
+          estado.receivingVector = 11;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 12;
+          return;
+        }
+      }
       Graficar1.disabled = true;
+      Graficar2.disabled = true;
+      Graficar3.disabled = true;
+      Graficar4.disabled = true;
+      Graficar5.disabled = true;
+      Graficar6.disabled = true;
+      Graficar7.disabled = true;
+      Graficar8.disabled = true;
+      Graficar9.disabled = true;
+      Graficar10.disabled = true;
+      Graficar11.disabled = true;
+      Graficar12.disabled = true;
+
       myChart.data.datasets[0].data = [];
+      myChart2.data.datasets[0].data = [];
+      myChart3.data.datasets[0].data = [];
+      myChart4.data.datasets[0].data = [];
+      myChart5.data.datasets[0].data = [];
+      myChart6.data.datasets[0].data = [];
+      myChart7.data.datasets[0].data = [];
+      myChart8.data.datasets[0].data = [];
+      myChart9.data.datasets[0].data = [];
+      myChart10.data.datasets[0].data = [];
+      myChart11.data.datasets[0].data = [];
+      myChart12.data.datasets[0].data = [];
+
       myChart.update();
+      myChart2.update();
+      myChart3.update();
+      myChart4.update();
+      myChart5.update();
+      myChart6.update();
+      myChart7.update();
+      myChart8.update();
+      myChart9.update();
+      myChart10.update();
+      myChart11.update();
+      myChart12.update();
+
       tablaBody1.innerHTML = "";
+      tablaBody2.innerHTML = "";
+      tablaBody3.innerHTML = "";
+      tablaBody4.innerHTML = "";
+      tablaBody5.innerHTML = "";
+      tablaBody6.innerHTML = "";
+      tablaBody7.innerHTML = "";
+      tablaBody8.innerHTML = "";
+      tablaBody9.innerHTML = "";
+      tablaBody10.innerHTML = "";
+      tablaBody11.innerHTML = "";
+      tablaBody12.innerHTML = "";
 
       estado.port.write("START\n", (err) => {
         if (err) {
