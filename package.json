@@ -16,6 +16,8 @@
   "dependencies": {
     "bootstrap": "^5.3.6",
     "chart.js": "^4.4.0",
+    "electron-modal-window": "^1.0.0",
+    "jquery": "^3.7.1",
     "serialport": "^13.0.0"
   }
 }

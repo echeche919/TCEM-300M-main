@@ -3,6 +3,7 @@ body {
   color: black;
   font-family: 'Montserrat', Arial, sans-serif;
   transition: background-color 0.5s, color 0.5s;
+  overflow-x: hidden;
 }
 
 body.dark-mode {
@@ -106,4 +107,44 @@ body.dark-mode .badge.bg-danger {
 .btn-outline-secondary:hover {
   filter: brightness(1.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.modal {
+  display: none;
+  /* Oculto por defecto */
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo semitransparente */
+}
+
+/* Contenido del modal */
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Botón de cerrar */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
 }

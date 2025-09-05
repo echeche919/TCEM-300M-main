@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
   ];
-
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
   const Datos = document.getElementById("Datos");
@@ -38,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody4 = document.querySelector("#tablaValores4 tbody");
   const tablaBody5 = document.querySelector("#tablaValores5 tbody");
   const tablaBody6 = document.querySelector("#tablaValores6 tbody");
+  const tablaModal = document.querySelector("#tablaModal tbody");
+
 
   const iconoModo = document.getElementById("icono-modo");
   const textoModo = document.getElementById("texto-modo");
@@ -54,8 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx11 = document.getElementById("myChart11").getContext("2d");
   const ctx12 = document.getElementById("myChart12").getContext("2d");
 
-
-
   // --- Inicialización UI ---
   function inicializarUI() {
     PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
@@ -63,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
     Datos.disabled = true;
 
   }
-
   // --- Chart ---
   const myChart = new Chart(ctx, {
     type: "line",
@@ -687,7 +685,13 @@ document.addEventListener("DOMContentLoaded", () => {
           } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
             estado.dataVector12.push(numericData);
             actualizarTabla(tablaBody6, estado.dataVector12);
-            Graficar12(estado.dataVector12, estado.aux)
+            Graficar12(estado.dataVector12, estado.aux);
+            console.log(estado.dataVector12.length);
+            if (estado.dataVector12.length >= 48) {
+              const modal = document.getElementById('myModal');
+              const openBtn = document.getElementById('openModalBtn');
+              modal.style.display = 'block';
+            }
             if (estado.dataVector12.length === numValores) Graficar12.disabled = false;
           }
         }
