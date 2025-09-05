@@ -900,14 +900,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+  /*
+    Graficar1.addEventListener("click", () => {
+      if (estado.dataVector1.length > 0) {
+        Graficar(estado.dataVector1, "Tabla 1");
+      }
+    });
+  */
+  toggleBtn.addEventListener("click", alternarTema);
 
-  Graficar1.addEventListener("click", () => {
-    if (estado.dataVector1.length > 0) {
-      Graficar(estado.dataVector1, "Tabla 1");
-    }
+  const { ipcRenderer } = require('electron');
+
+  document.getElementById('A').addEventListener('click', () => {
+    ipcRenderer.send('open-new-window');
   });
 
-  toggleBtn.addEventListener("click", alternarTema);
 
   // --- Inicialización general ---
   inicializarUI();

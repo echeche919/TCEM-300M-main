@@ -1,5 +1,5 @@
 {
-  "name": "tcem-300m",
+  "name": "tromer-bench",
   "version": "1.0.0",
   "description": "Pagina destinada al uso del TCEM 300M",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "start": "electron ."
   },
   "keywords": [],
-  "author": "Agustin Franco Esnal",
+  "author": "Ezequiel Duran",
   "license": "",
   "devDependencies": {
     "electron": "^28.3.3"
