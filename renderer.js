@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Aceleracion Z', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Aceleracion Y', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -147,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Aceleracion X', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -279,8 +279,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Acelerometro Z', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -312,8 +312,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Acelerometro X', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -345,8 +345,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scales: {
         y: {
           beginAtZero: true,
-          max: 15,
-          min: -15,
+          max: 30,
+          min: -30,
           title: { display: true, text: 'Acelerometro Y', color: "#222" },
           ticks: { color: "#222" }
         },
@@ -577,11 +577,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = line.trim();
         if (!data) return;
         if (data === "0x68") {
-          console.log("MPU 1 DETECTADO");
           estado.MPU = 1;
         } else if (data === "0x69") {
-          console.log("MPU 1 DETECTADO");
-
           estado.MPU = 2;
         }
         if (estado.MPU === 1) {
@@ -907,6 +904,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   toggleBtn.addEventListener("click", alternarTema);
+
 
   inicializarUI();
   cargarTemaGuardado();

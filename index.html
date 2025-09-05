@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
@@ -35,7 +34,34 @@
       Buscando Esp32...
     </span>
   </div>
+  <!--MODAL BUTTON-->
+  <button type="button" class="badge bg-warning text-dark p-2 fs-6" data-bs-toggle="modal"
+    data-bs-target="#exampleModalLong">
+    Launch demo modal
+  </button>
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Evaluacion de la estructura</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius error dicta, eligendi explicabo corporis quia
+          pariatur quas, eos aut itaque blanditiis saepe repellat voluptatibus? Exercitationem architecto dolorum ullam
+          error veritatis!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row align-items-center">
     <div class="col">
       <canvas id="myChart" width="50%" height="30%"></canvas>
@@ -127,6 +153,7 @@
     </button>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
