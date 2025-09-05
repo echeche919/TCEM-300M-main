@@ -29,7 +29,6 @@
       Iniciar transmisión desde ESP
     </button>
   </div>
-  <button id="A">ASKDJASH</button>
   <div class="position-absolute top-0 end-0 m-3">
     <span id="port" class="badge bg-warning text-dark p-2 fs-6"><span class="spinner-border spinner-border-sm me-2"
         role="status" aria-hidden="true"></span>
@@ -58,7 +57,69 @@
   </div>
   </div>
   </div>
-
+  <div class="d-flex justify-content-center">
+    <button id="btnGraficarTabla1" class="btn btn-success" disabled>
+      Graficar
+    </button>
+  </div>
+  <div class="row mt-5">
+    <div class="d-inline-flex p-2 bd-highlight">
+      <table id="tablaValores1" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Acel Z</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores2" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Acel Y</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores3" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Acel X</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores4" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Gyro X</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores5" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Gyro Y</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="tablaValores6" class="table">
+        <thead class="table-dark">
+          <tr>
+            <th style="width: 50%;">Tiempo</th>
+            <th style="width: 50%;">Gyro Z</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
   <div class="position-fixed bottom-0 start-0 m-3" style="z-index: 1050;">
     <button id="Modo Oscuro" class="btn btn-outline-secondary btn-sm">
       <span id="icono-modo">🌙</span>

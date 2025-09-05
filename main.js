@@ -19,30 +19,6 @@ function createWindow() {
   mainWindow.loadFile('index.html')
 }
 
-function createNewWindow() {
-  newWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    icon: path.join(__dirname, 'logo.ico'),
-    webPreferences: {
-      nodeIntegration: true, // Be cautious with this in production apps
-      contextIsolation: false // Be cautious with this in production apps
-    }
-  });
-  newWindow.loadFile('new-window.html');
-  newWindow.on('closed', () => {
-    newWindow = null;
-  });
-}
-
-app.on('open-new-window', () => {
-  createNewWindow();
-});
-
-ipcMain.on('open-new-window', (event) => {
-  createNewWindow();
-});
-
 app.whenReady().then(() => {
   createWindow()
 

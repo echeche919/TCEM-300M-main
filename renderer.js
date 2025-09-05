@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
     Datos.disabled = true;
-    Graficar1.disabled = true;
+
   }
 
   // --- Chart ---
@@ -631,7 +631,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (estado.MPU === 1) {
           if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             estado.dataVector1.push(numericData);
             actualizarTabla(tablaBody1, estado.dataVector1);
             Graficar(estado.dataVector1, estado.aux)
@@ -900,23 +899,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-  /*
-    Graficar1.addEventListener("click", () => {
-      if (estado.dataVector1.length > 0) {
-        Graficar(estado.dataVector1, "Tabla 1");
-      }
-    });
-  */
-  toggleBtn.addEventListener("click", alternarTema);
 
-  const { ipcRenderer } = require('electron');
-
-  document.getElementById('A').addEventListener('click', () => {
-    ipcRenderer.send('open-new-window');
+  Graficar1.addEventListener("click", () => {
+    if (estado.dataVector1.length > 0) {
+      Graficar(estado.dataVector1, "Tabla 1");
+    }
   });
 
+  toggleBtn.addEventListener("click", alternarTema);
 
-  // --- Inicialización general ---
   inicializarUI();
   cargarTemaGuardado();
   EscaneoESP();
