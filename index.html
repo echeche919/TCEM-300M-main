@@ -48,6 +48,26 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia et quis velit, nesciunt at tempora a
         blanditiis! Eligendi beatae perferendis sed, voluptatum sapiente quam ipsa, minima corporis ab, esse
         deserunt?.</p>
+      <h2>prom1</h2>
+      <li id="valMostrado"></li>
+      <h2>prom2</h2>
+      <li id="valMostrado"></li>
+      <h2>prom3</h2>
+      <li id="valMostrado"></li>
+      <h2>prom4</h2>
+      <li id="valMostrado"></li>
+      <h2>prom5</h2>
+      <li id="valMostrado"></li>
+      <h2>prom6</h2>
+      <li id="valMostrado"></li>
+      <h2>prom7</h2>
+      <li id="valMostrado"></li>
+      <h2>prom8</h2>
+      <li id="valMostrado"></li>
+      <h2>prom9</h2>
+      <li id="valMostrado"></li>
+      <h2>prom10</h2>
+      <li id="valMostrado"></li>
     </div>
   </div>
   <div class="row align-items-center">
@@ -149,17 +169,23 @@
       // Abrir modal
       openBtn.addEventListener('click', function () {
         modal.style.display = 'block';
+        body.style.overflow = 'hidden';
+
       });
 
       // Cerrar modal al hacer clic en la X
       closeBtn.addEventListener('click', function () {
         modal.style.display = 'none';
+        body.style.overflow = 'scroll';
+
       });
 
       // Cerrar modal al hacer clic fuera del contenido
       window.addEventListener('click', function (e) {
         if (e.target === modal) {
           modal.style.display = 'none';
+          body.style.overflow = 'scroll';
+
         }
       });
     });

@@ -17,6 +17,17 @@ document.addEventListener("DOMContentLoaded", () => {
     dataVector10: [],
     dataVector11: [],
     dataVector12: [],
+    Vector1Prom: 0,
+    Vector2Prom: 0,
+    Vector5Prom: 0,
+    Vector6Prom: 0,
+    Vector7Prom: 0,
+    Vector8Prom: 0,
+    Vector9Prom: 0,
+    Vector10Prom: 0,
+    Vector11Prom: 0,
+    Vector12Prom: 0,
+
     receivingVector: 1,
     aux: 0,
     MPU: null
@@ -687,10 +698,26 @@ document.addEventListener("DOMContentLoaded", () => {
             actualizarTabla(tablaBody6, estado.dataVector12);
             Graficar12(estado.dataVector12, estado.aux);
             console.log(estado.dataVector12.length);
-            if (estado.dataVector12.length >= 48) {
+            if (estado.dataVector12.length >= 50) {
               const modal = document.getElementById('myModal');
-              const openBtn = document.getElementById('openModalBtn');
+              const body = document.body;
+              const valMostrado = document.getElementById('valMostrado');
               modal.style.display = 'block';
+              body.style.overflow = 'hidden';
+              for (let i = 0; i < numValores; i++) {
+                Vector1Prom = estado.dataVector1.reduce((a, b) => a + b, 0) / estado.dataVector1.length;
+                console.log(Vector1Prom);
+                valMostrado.textContent = Vector1Prom.toFixed(3);
+                Vector2Prom = estado.dataVector2.reduce((a, b) => a + b, 0) / estado.dataVector2.length;
+                Vector5Prom = estado.dataVector5.reduce((a, b) => a + b, 0) / estado.dataVector5.length;
+                Vector6Prom = estado.dataVector6.reduce((a, b) => a + b, 0) / estado.dataVector6.length;
+                Vector7Prom = estado.dataVector7.reduce((a, b) => a + b, 0) / estado.dataVector7.length;
+                Vector8Prom = estado.dataVector8.reduce((a, b) => a + b, 0) / estado.dataVector8.length;
+                Vector9Prom = estado.dataVector9.reduce((a, b) => a + b, 0) / estado.dataVector9.length;
+                Vector10Prom = estado.dataVector10.reduce((a, b) => a + b, 0) / estado.dataVector10.length;
+                Vector11Prom = estado.dataVector11.reduce((a, b) => a + b, 0) / estado.dataVector11.length;
+                Vector12Prom = estado.dataVector12.reduce((a, b) => a + b, 0) / estado.dataVector12.length;
+              }
             }
             if (estado.dataVector12.length === numValores) Graficar12.disabled = false;
           }
