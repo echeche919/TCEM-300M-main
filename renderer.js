@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const { SerialPort } = require("serialport");
 
   // --- Estado y constantes ---
   const estado = {
@@ -519,13 +518,14 @@ document.addEventListener("DOMContentLoaded", () => {
       p.vendorId?.toUpperCase() === device.vendorId &&
       device.productIds.includes(p.productId?.toUpperCase())
     );
+    guardarUsuario();
   }
 
   async function EscaneoESP() {
     setInterval(async () => {
       if (estado.port && estado.port.readable) return;
       try {
-        const ports = await SerialPort.list();
+        const ports = await window.electronAPI.serialList();
         const matchingPort = ports.find(TcemEncontrado);
 
         if (!matchingPort) {
@@ -534,11 +534,11 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        estado.port = new SerialPort({
+        estado.port = window.electronAPI.SerialPorts({
           path: matchingPort.path,
           baudRate: 115200
         });
-
+        console.log("Estese:", estado.port);
         estado.port.on("open", () => {
           Datos.disabled = false;
           PORTID.textContent = `TCEM 300M conectado en ${matchingPort.path}`;
@@ -936,6 +936,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   toggleBtn.addEventListener("click", alternarTema);
 
+  async function guardarValor(nombre, valor, tiempo) {
+    const res = await window.api.insertarValor(nombre, valor, tiempo);
+    if (res.ok) {
+      alert('Valor guardado con ID: ' + res.id);
+    } else {
+      alert('Error: ' + res.error);
+    }
+  }
+
+  // Ejemplo de uso:
+  async function guardarUsuario() {
+  const newUserData = {
+    valor: '1',
+    id_sensor: '1',
+    id_experimento: '1'
+  };
+  
+  
+  const res = await window.electronAPI.invoke('insertar-usuario', newUserData);
+  if (res.ok) {
+    alert('Usuario guardado con ID: ' + res.id);
+  } else {
+    alert('Error: ' + res.error);
+  }
+}
+
+// Llama a guardarUsuario() cuando lo necesites
 
   inicializarUI();
   cargarTemaGuardado();
