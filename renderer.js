@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const { SerialPort } = require("serialport");
 
   // --- Estado y constantes ---
   const estado = {
@@ -65,13 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx10 = document.getElementById("myChart10").getContext("2d");
   const ctx11 = document.getElementById("myChart11").getContext("2d");
   const ctx12 = document.getElementById("myChart12").getContext("2d");
-
+  const btnVel1 = document.getElementById("btnVel1");
+  const btnVel2 = document.getElementById("btnVel2");
+  const btnVel3 = document.getElementById("btnVel3");
   // --- Inicialización UI ---
   function inicializarUI() {
     PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
     Datos.disabled = true;
-
   }
   // --- Chart ---
   const myChart = new Chart(ctx, {
@@ -522,10 +522,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function EscaneoESP() {
-    setInterval(async () => {
+    const scanIntervalId = setInterval(async () => {
       if (estado.port && estado.port.readable) return;
       try {
-        const ports = await SerialPort.list();
+        const ports = await window.apiSerial.listPorts();
+        console.log("Puertos disponibles:", ports);
         const matchingPort = ports.find(TcemEncontrado);
 
         if (!matchingPort) {
@@ -534,32 +535,46 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        estado.port = new SerialPort({
+        estado.port = await window.apiSerial.openSerialPort({
           path: matchingPort.path,
           baudRate: 115200
         });
+        // Serial port opened successfully, update UI directly
+        Datos.disabled = false;
+        PORTID.textContent = `TremmorBench conectado en ${matchingPort.path}`;
+        PORTID.className = "badge bg-success text-light p-2 fs-6";
 
-        estado.port.on("open", () => {
-          Datos.disabled = false;
-          PORTID.textContent = `TCEM 300M conectado en ${matchingPort.path}`;
-          PORTID.className = "badge bg-success text-light p-2 fs-6";
-          console.log("Leyendo datos");
-          LecturaData();
-        });
+        // Cancelamos el interval porque ya tenemos el puerto abierto
+        clearInterval(scanIntervalId);
+        leerDatos();
 
-        estado.port.on("close", () => {
-          Datos.disabled = true;
-          PORTID.textContent = "TCEM 300M desconectado";
-          PORTID.className = "badge bg-danger text-light p-2 fs-6";
-          estado.port = null;
-        });
+        // TODO: Activar la laectura de datos en otro lado
+        //LecturaData();
 
-      } catch (err) {
-        console.error("Error al escanear puertos:", err);
-        PORTID.textContent = `Error al buscar puertos: ${err.message}`;
+      } catch (error) {
+        console.error("Error al abrir el puerto serie:", error);
+        Datos.disabled = true;
       }
     }, 500);
   }
+
+  async function leerDatos() {
+    console.log("Iniciando la lectura de datos del puerto serie...");
+    const readDataIntervalId = setInterval(async () => {
+      console.log("Estado port: ", estado.port);
+      if (estado.port && estado.port.isOpen) {
+        console.log("Puerto serie abierto, leyendo datos...");
+      }
+    }, 1000);
+  }
+
+  window.apiSerial.onSerialClose(() => {
+      console.log("OnSerialClose event received");
+      Datos.disabled = true;
+      PORTID.textContent = "TremmorBench desconectado";
+      PORTID.className = "badge bg-danger text-light p-2 fs-6";
+      estado.port = null;
+  });
 
   // --- Tablas y datos ---
   function actualizarTabla(tablaBody, dataArray) {
@@ -575,15 +590,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function LecturaData() {
-    estado.port.on("readable", () => {
-      let chunk = estado.port.read();
-      if (estado.dataVector1.length >= numValores) return;
-      if (!chunk) return;
-      estado.buffer += chunk.toString();
-      let lines = estado.buffer.split("\n");
-      estado.buffer = lines.pop();
-      lines.forEach(line => {
-        const data = line.trim();
+  window.apiSerial.onSerialData((data) => {
+    estado.buffer += data;
+    let lines = estado.buffer.split("\n");
+    estado.buffer = lines.pop();
+    lines.forEach(line => {
+    const data = line.trim();
         if (!data) return;
         if (data === "0x68") {
           estado.MPU = 1;
@@ -927,7 +939,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-
+  btnVel1.addEventListener("click", () => {
+    window.apiSerial.enviarDato('1');
+  });
+    
   Graficar1.addEventListener("click", () => {
     if (estado.dataVector1.length > 0) {
       Graficar(estado.dataVector1, "Tabla 1");
