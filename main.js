@@ -21,7 +21,7 @@ function createWindow() {
   mainWindow.menuBarVisible = false;
   mainWindow.loadFile('index.html')
 }
-ipcMain.on('enviar-dato', async(event, options) => {
+ipcMain.on('enviar-dato', async (event, options) => {
   if (port && port.isOpen) {
     port.close();
   }
@@ -45,31 +45,32 @@ ipcMain.handle('list-ports', async () => {
 
 // Handler para abrir un puerto serie
 ipcMain.handle('open-serial-port', async (event, options) => {
-  // if (port && port.isOpen) {
-  //   // TODO: Creo que no es necesario la Promise
-  //   await new Promise((resolve) => port.close(resolve));
-  // }
-  port = new SerialPort({ path: options.path, baudRate: options.baudRate });
-  port.open();
+  return new Promise((resolve, reject) => {
+    const port = new SerialPort({
+      path: options.path,
+      baudRate: options.baudRate
+    });
 
-  // Eventos del puerto serie
-  port.on('open', () => {
-    console.log('Serial port opened:', port.isOpen);
-  });
-  port.on('data', (data) => {
-    event.sender.send('serial-data', data.toString());
-  });
-  port.on('error', (err) => {
-    console.error('Serial port error:', err.message);
-    event.sender.send('serial-error', err.message);
-  });
-  port.on('close', () => {
-    console.log('Serial port closed');
-    if (mainWindow && mainWindow.webContents) {
-      mainWindow.webContents.send('serial-close');
-    }
-  });
-  return {isOpen: port.isOpen };
+    // Eventos del puerto serie
+    port.on('open', () => {
+      console.log('Serial port opened:', port.isOpen);
+      resolve("Groso");
+    });
+
+    port.on('error', (err) => {
+      console.error('Serial port error:', err.message);
+      reject(err.message);
+    });
+
+    port.on('close', () => {
+      console.log('Serial port closed');
+      event.sender.send('serial-closed', "Closed");
+    });
+
+    port.on('data', (data) => {
+      event.sender.send('serial-data', data.toString());
+    });
+  })
 });
 
 app.whenReady().then(() => {
