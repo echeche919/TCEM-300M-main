@@ -130,6 +130,7 @@ body.dark-mode .badge.bg-danger {
   padding: 20px;
   width: 80%;
   max-width: 500px;
+  max-height: 1000px;
   border-radius: 8px;
   position: relative;
 }
