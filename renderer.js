@@ -4,7 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const estado = {
     buffer: "",
     port: null,
-    dataVector: [12][50],
+    dataVector1: [],
+    dataVector2: [],
+    dataVector3: [],
+    dataVector4: [],
+    dataVector5: [],
+    dataVector6: [],
+    dataVector7: [],
+    dataVector8: [],
+    dataVector9: [],
+    dataVector10: [],
+    dataVector11: [],
+    dataVector12: [],
     Vector1Prom: 0,
     Vector2Prom: 0,
     Vector5Prom: 0,
@@ -38,26 +49,65 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody6 = document.querySelector("#tablaValores6 tbody");
   const tablaModal = document.querySelector("#tablaModal tbody");
   const modal = document.getElementById('myModal');
-  const body = document.body;
+
   const valMostrado = document.getElementById('valMostrado');
+  const valMostrado1 = document.getElementById('valMostrado1');
+  const valMostrado2 = document.getElementById('valMostrado2');
+  const valMostrado3 = document.getElementById('valMostrado3');
+  const valMostrado4 = document.getElementById('valMostrado4');
+  const valMostrado5 = document.getElementById('valMostrado5');
+  const valMostrado6 = document.getElementById('valMostrado6');
+  const valMostrado7 = document.getElementById('valMostrado7');
+  const valMostrado8 = document.getElementById('valMostrado8');
+  const valMostrado9 = document.getElementById('valMostrado9');
 
   const iconoModo = document.getElementById("icono-modo");
   const textoModo = document.getElementById("texto-modo");
-  const ctx = document.getElementById("myChart").getContext("2d");
-  const ctx2 = document.getElementById("myChart2").getContext("2d");
-  const ctx3 = document.getElementById("myChart3").getContext("2d");
-  const ctx4 = document.getElementById("myChart4").getContext("2d");
-  const ctx5 = document.getElementById("myChart5").getContext("2d");
-  const ctx6 = document.getElementById("myChart6").getContext("2d");
-  const ctx7 = document.getElementById("myChart7").getContext("2d");
-  const ctx8 = document.getElementById("myChart8").getContext("2d");
-  const ctx9 = document.getElementById("myChart9").getContext("2d");
-  const ctx10 = document.getElementById("myChart10").getContext("2d");
-  const ctx11 = document.getElementById("myChart11").getContext("2d");
-  const ctx12 = document.getElementById("myChart12").getContext("2d");
-  const btnVel1 = document.getElementById("btnVel1");
-  const btnVel2 = document.getElementById("btnVel2");
-  const btnVel3 = document.getElementById("btnVel3");
+
+  const Save = document.getElementById("Save");
+  const Mode = document.getElementById("mode");
+  const time = document.getElementById("time");
+
+  function CreateChart(chartId) {
+    const ctx = document.getElementById(chartId).getContext("2d");
+
+    return new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          backgroundColor: "rgba(0, 0, 255, 0.6)",
+          pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
+          lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+          data: []
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 30,
+            min: -30,
+            title: { display: true, text: 'Aceleracion Z', color: "#222" },
+            ticks: { color: "#222" }
+          },
+          x: {
+            beginAtZero: true,
+            max: 50,
+            title: { display: true, text: 'Segundos', color: "#222" },
+            ticks: { color: "#222" }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: "#222" } }
+        }
+      }
+    }
+    );
+  };
+
+
   // --- Inicialización UI ---
   function inicializarUI() {
     PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
@@ -65,402 +115,19 @@ document.addEventListener("DOMContentLoaded", () => {
     Datos.disabled = true;
   }
   // --- Chart ---
-  const myChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Aceleracion Z', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart2 = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Aceleracion Y', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart3 = new Chart(ctx3, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Aceleracion X', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart4 = new Chart(ctx4, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio X', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart5 = new Chart(ctx5, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio Y', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart6 = new Chart(ctx6, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart7 = new Chart(ctx7, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Acelerometro Z', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart8 = new Chart(ctx8, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Acelerometro X', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart9 = new Chart(ctx9, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 30,
-          min: -30,
-          title: { display: true, text: 'Acelerometro Y', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart10 = new Chart(ctx10, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio X', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart11 = new Chart(ctx11, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio Y', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
-  const myChart12 = new Chart(ctx12, {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        backgroundColor: "rgba(0, 0, 255, 0.6)",
-        pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-        lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
-        data: []
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 360,
-          min: -360,
-          title: { display: true, text: 'Giroscopio Z', color: "#222" },
-          ticks: { color: "#222" }
-        },
-        x: {
-          beginAtZero: true,
-          max: 50,
-          title: { display: true, text: 'Segundos', color: "#222" },
-          ticks: { color: "#222" }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: "#222" } }
-      }
-    }
-  });
+  const myChart = CreateChart("myChart");
+  const myChart2 = CreateChart("myChart2");
+  const myChart3 = CreateChart("myChart3");
+  const myChart4 = CreateChart("myChart4");
+  const myChart5 = CreateChart("myChart5");
+  const myChart6 = CreateChart("myChart6");
+  const myChart7 = CreateChart("myChart7");
+  const myChart8 = CreateChart("myChart8");
+  const myChart9 = CreateChart("myChart9");
+  const myChart10 = CreateChart("myChart10");
+  const myChart11 = CreateChart("myChart11");
+  const myChart12 = CreateChart("myChart12");
+
   // --- Tema ---
   function aplicarTema(modoOscuro) {
     if (modoOscuro) {
@@ -517,9 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (estado.port && estado.port.readable) return;
       try {
         const ports = await window.apiSerial.listPorts();
-        console.log("Puertos disponibles:", ports);
         const matchingPort = ports.find(TcemEncontrado);
-        console.log(" matchingPort.path", matchingPort.path);
 
         if (!matchingPort) {
           PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
@@ -527,10 +192,19 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        estado.port = await window.apiSerial.openSerialPort({
-          path: matchingPort.path,
-          baudRate: 115200
-        });
+        try {
+          const opened = await window.apiSerial.openSerialPort({
+            path: matchingPort.path,
+            baudRate: 9600
+          });
+          console.log("Port opened: ", opened);
+        }
+        catch (error) {
+          console.error("Error opening port: ", error);
+          // TODO: Controlar esta exception
+          return;
+        }
+
         // Serial port opened successfully, update UI directly
         Datos.disabled = false;
         PORTID.textContent = `TremmorBench conectado en ${matchingPort.path}`;
@@ -538,10 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Cancelamos el interval porque ya tenemos el puerto abierto
         clearInterval(scanIntervalId);
-        leerDatos();
 
         // TODO: Activar la laectura de datos en otro lado
-        LecturaData();
+        //LecturaData();
 
       } catch (error) {
         console.error("Error al abrir el puerto serie:", error);
@@ -550,23 +223,172 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
   }
 
-  async function leerDatos() {
-    console.log("Iniciando la lectura de datos del puerto serie...");
-    /* const readDataIntervalId = setInterval(async () => {
-       console.log("Estado port: ", estado.port);
-       if (estado.port && estado.port.isOpen) {
-         console.log("Puerto serie abierto, leyendo datos...");
-       }
-     }, 1000);*/
-  }
-
-  window.apiSerial.onSerialClose(() => {
+  window.apiSerial.onSerialClosed(() => {
     console.log("OnSerialClose event received");
     Datos.disabled = true;
     PORTID.textContent = "TremmorBench desconectado";
     PORTID.className = "badge bg-danger text-light p-2 fs-6";
     estado.port = null;
   });
+
+  window.apiSerial.onSerialOpened(() => {
+    console.log("OnSerialOpened event received");
+  });
+
+
+  window.apiSerial.onSerialData((data) => {
+    estado.buffer += data;
+    let lines = estado.buffer.split("\n");
+    estado.buffer = lines.pop();
+    lines.forEach(line => {
+      const data = line.trim();
+      console.log(data);
+      if (!data) return;
+      if (data === "0x68") {
+        estado.MPU = 1;
+      } else if (data === "0x69") {
+        estado.MPU = 2;
+      }
+      if (estado.MPU === 1) {
+        if (data.toUpperCase() === "ACELZ") {
+          estado.receivingVector = 1;
+          return;
+        } else if (data.toUpperCase() === "ACELY") {
+          estado.receivingVector = 2;
+          return;
+        } else if (data.toUpperCase() === "ACELX") {
+          estado.receivingVector = 3;
+          return;
+        } else if (data.toUpperCase() === "GYROX") {
+          estado.receivingVector = 4;
+          return;
+        } else if (data.toUpperCase() === "GYROY") {
+          estado.receivingVector = 5;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 6;
+          return;
+        }
+      } else if (estado.MPU === 2) {
+        if (data.toUpperCase() === "ACELZ") {
+          estado.receivingVector = 7;
+          return;
+        } else if (data.toUpperCase() === "ACELY") {
+          estado.receivingVector = 8;
+          return;
+        } else if (data.toUpperCase() === "ACELX") {
+          estado.receivingVector = 9;
+          return;
+        } else if (data.toUpperCase() === "GYROX") {
+          estado.receivingVector = 10;
+          return;
+        } else if (data.toUpperCase() === "GYROY") {
+          estado.receivingVector = 11;
+          return;
+        } else if (data.toUpperCase() === "GYROZ") {
+          estado.receivingVector = 12;
+          return;
+        }
+      }
+      const numericData = parseFloat(data);
+      if (isNaN(numericData)) {
+        return;
+      }
+      if (estado.MPU === 1) {
+        if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
+          estado.dataVector1.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector1);
+          Graficar(myChart, estado.dataVector1, estado.aux)
+          if (estado.dataVector1.length === numValores) Graficar1.disabled = false;
+
+        }
+        else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
+          estado.dataVector2.push(numericData);
+          actualizarTabla(tablaBody2, estado.dataVector2);
+          Graficar(myChart2, estado.dataVector2, estado.aux)
+          if (estado.dataVector2.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
+          estado.dataVector3.push(numericData);
+          actualizarTabla(tablaBody3, estado.dataVector3);
+          Graficar(myChart3, estado.dataVector3, estado.aux)
+          if (estado.dataVector3.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
+          estado.dataVector4.push(numericData);
+          actualizarTabla(tablaBody4, estado.dataVector4);
+          Graficar(myChart4, estado.dataVector4, estado.aux)
+          if (estado.dataVector4.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
+          estado.dataVector5.push(numericData);
+          actualizarTabla(tablaBody5, estado.dataVector5);
+          Graficar(myChart5, estado.dataVector5, estado.aux)
+          if (estado.dataVector5.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
+          estado.dataVector6.push(numericData);
+          actualizarTabla(tablaBody6, estado.dataVector6);
+          Graficar(myChart6, estado.dataVector6, estado.aux)
+          if (estado.dataVector6.length === numValores) Graficar1.disabled = false;
+        }
+      } else if (estado.MPU === 2) {
+        if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
+          estado.dataVector7.push(numericData);
+          actualizarTabla(tablaBody1, estado.dataVector7);
+          Graficar(myChart7, estado.dataVector7, estado.aux)
+          if (estado.dataVector7.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
+          estado.dataVector8.push(numericData);
+          actualizarTabla(tablaBody2, estado.dataVector8);
+          Graficar(myChart8, estado.dataVector8, estado.aux)
+          if (estado.dataVector8.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
+          estado.dataVector9.push(numericData);
+          actualizarTabla(tablaBody3, estado.dataVector9);
+          Graficar(myChart9, estado.dataVector9, estado.aux)
+          if (estado.dataVector9.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
+          estado.dataVector10.push(numericData);
+          actualizarTabla(tablaBody4, estado.dataVector10);
+          Graficar(myChart10, estado.dataVector10, estado.aux)
+          if (estado.dataVector10.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
+          estado.dataVector11.push(numericData);
+          actualizarTabla(tablaBody5, estado.dataVector11);
+          Graficar(myChart11, estado.dataVector11, estado.aux)
+          if (estado.dataVector11.length === numValores) Graficar1.disabled = false;
+        } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
+          estado.dataVector12.push(numericData);
+          actualizarTabla(tablaBody6, estado.dataVector12);
+          Graficar(myChart12, estado.dataVector12, estado.aux);
+          if (estado.dataVector12.length >= 50) {
+            const body = document.body;
+            modal.style.display = 'block';
+            for (let i = 0; i < numValores; i++) {
+              Vector1Prom = estado.dataVector1.reduce((a, b) => a + b, 0) / estado.dataVector1.length;
+              valMostrado.textContent = Vector1Prom.toFixed(3);
+              Vector2Prom = estado.dataVector2.reduce((a, b) => a + b, 0) / estado.dataVector2.length;
+              valMostrado1.textContent = Vector2Prom.toFixed(3);
+              Vector3Prom = estado.dataVector3.reduce((a, b) => a + b, 0) / estado.dataVector3.length;
+              valMostrado2.textContent = Vector3Prom.toFixed(3);
+              Vector4Prom = estado.dataVector4.reduce((a, b) => a + b, 0) / estado.dataVector4.length;
+              valMostrado3.textContent = Vector4Prom.toFixed(3);
+              Vector5Prom = estado.dataVector5.reduce((a, b) => a + b, 0) / estado.dataVector5.length;
+              valMostrado4.textContent = Vector5Prom.toFixed(3);
+              Vector6Prom = estado.dataVector6.reduce((a, b) => a + b, 0) / estado.dataVector6.length;
+              valMostrado5.textContent = Vector6Prom.toFixed(3);
+              Vector7Prom = estado.dataVector7.reduce((a, b) => a + b, 0) / estado.dataVector7.length;
+              valMostrado6.textContent = Vector7Prom.toFixed(3);
+              Vector8Prom = estado.dataVector8.reduce((a, b) => a + b, 0) / estado.dataVector8.length;
+              valMostrado7.textContent = Vector8Prom.toFixed(3);
+              Vector9Prom = estado.dataVector9.reduce((a, b) => a + b, 0) / estado.dataVector9.length;
+              valMostrado8.textContent = Vector9Prom.toFixed(3);
+              Vector10Prom = estado.dataVector10.reduce((a, b) => a + b, 0) / estado.dataVector10.length;
+              valMostrado9.textContent = Vector10Prom.toFixed(3);
+            }
+          }
+        }
+      }
+    });
+  });
+
 
   // --- Tablas y datos ---
   function actualizarTabla(tablaBody, dataArray) {
@@ -581,244 +403,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function LecturaData() {
-    window.apiSerial.onSerialData((data) => {
-      estado.buffer += data;
-      let lines = estado.buffer.split("\n");
-      estado.buffer = lines.pop();
-      lines.forEach(line => {
-        const data = line.trim();
-        if (!data) return;
-        if (data === "0x68") {
-          estado.MPU = 1;
-        } else if (data === "0x69") {
-          estado.MPU = 2;
-        }
-        if (estado.MPU === 1) {
-          if (data.toUpperCase() === "ACELZ") {
-            estado.receivingVector = 1;
-            return;
-          } else if (data.toUpperCase() === "ACELY") {
-            estado.receivingVector = 2;
-            return;
-          } else if (data.toUpperCase() === "ACELX") {
-            estado.receivingVector = 3;
-            return;
-          } else if (data.toUpperCase() === "GYROX") {
-            estado.receivingVector = 4;
-            return;
-          } else if (data.toUpperCase() === "GYROY") {
-            estado.receivingVector = 5;
-            return;
-          } else if (data.toUpperCase() === "GYROZ") {
-            estado.receivingVector = 6;
-            return;
-          }
-        } else if (estado.MPU === 2) {
-          if (data.toUpperCase() === "ACELZ") {
-            estado.receivingVector = 7;
-            return;
-          } else if (data.toUpperCase() === "ACELY") {
-            estado.receivingVector = 8;
-            return;
-          } else if (data.toUpperCase() === "ACELX") {
-            estado.receivingVector = 9;
-            return;
-          } else if (data.toUpperCase() === "GYROX") {
-            estado.receivingVector = 10;
-            return;
-          } else if (data.toUpperCase() === "GYROY") {
-            estado.receivingVector = 11;
-            return;
-          } else if (data.toUpperCase() === "GYROZ") {
-            estado.receivingVector = 12;
-            return;
-          }
-        }
-        const numericData = parseFloat(data);
-        if (isNaN(numericData)) {
-          return;
-        }
-        if (estado.MPU === 1) {
-          if (estado.receivingVector === 1 && estado.dataVector[0].length < numValores) {
-            estado.dataVector[0].push(numericData);
-            console.log(estado.dataVector[0]);
-            actualizarTabla(tablaBody1, estado.dataVector[0]);
-            Graficar(estado.dataVector[0], estado.aux)
-            if (estado.dataVector[0].length === numValores) Graficar1.disabled = false;
-          } else if (estado.receivingVector === 2 && estado.dataVector[1].length < numValores) {
-            estado.dataVector[1].push(numericData);
-            actualizarTabla(tablaBody2, estado.dataVector[1]);
-            Graficar2(estado.dataVector[1], estado.aux)
-            if (estado.dataVector[1].length === numValores) Graficar2.disabled = false;
-          } else if (estado.receivingVector === 3 && estado.dataVector[2].length < numValores) {
-            estado.dataVector[2].push(numericData);
-            actualizarTabla(tablaBody3, estado.dataVector[2]);
-            Graficar3(estado.dataVector[2], estado.aux)
-            if (estado.dataVector[2].length === numValores) Graficar3.disabled = false;
-          } else if (estado.receivingVector === 4 && estado.dataVector[3].length < numValores) {
-            estado.dataVector[3].push(numericData);
-            actualizarTabla(tablaBody4, estado.dataVector[3]);
-            Graficar4(estado.dataVector[3], estado.aux)
-            if (estado.dataVector[3].length === numValores) Graficar4.disabled = false;
-          } else if (estado.receivingVector === 5 && estado.dataVector[4].length < numValores) {
-            estado.dataVector[4].push(numericData);
-            actualizarTabla(tablaBody5, estado.dataVector[4]);
-            Graficar5(estado.dataVector[4], estado.aux)
-            if (estado.dataVector[4].length === numValores) Graficar5.disabled = false;
-          } else if (estado.receivingVector === 6 && estado.dataVector[5].length < numValores) {
-            estado.dataVector[5].push(numericData);
-            actualizarTabla(tablaBody6, estado.dataVector[5]);
-            Graficar6(estado.dataVector[5], estado.aux)
-            if (estado.dataVector[5].length === numValores) Graficar6.disabled = false;
-          }
-        } else if (estado.MPU === 2) {
-          if (estado.receivingVector === 7 && estado.dataVector[6].length < numValores) {
-            estado.dataVector[6].push(numericData);
-            actualizarTabla(tablaBody1, estado.dataVector[6]);
-            Graficar7(estado.dataVector[6], estado.aux)
-            if (estado.dataVector[6].length === numValores) Graficar7.disabled = false;
-          } else if (estado.receivingVector === 8 && estado.dataVector[7].length < numValores) {
-            estado.dataVector[7].push(numericData);
-            actualizarTabla(tablaBody2, estado.dataVector[7]);
-            Graficar8(estado.dataVector[7], estado.aux)
-            if (estado.dataVector[7].length === numValores) Graficar8.disabled = false;
-          } else if (estado.receivingVector === 9 && estado.dataVector[8].length < numValores) {
-            estado.dataVector[8].push(numericData);
-            actualizarTabla(tablaBody3, estado.dataVector[8]);
-            Graficar9(estado.dataVector[8], estado.aux)
-            if (estado.dataVector[8].length === numValores) Graficar9.disabled = false;
-          } else if (estado.receivingVector === 10 && estado.dataVector[9].length < numValores) {
-            estado.dataVector[9].push(numericData);
-            actualizarTabla(tablaBody4, estado.dataVector[9]);
-            Graficar10(estado.dataVector[9], estado.aux)
-            if (estado.dataVector[9].length === numValores) Graficar10.disabled = false;
-          } else if (estado.receivingVector === 11 && estado.dataVector[10].length < numValores) {
-            estado.dataVector[10].push(numericData);
-            actualizarTabla(tablaBody5, estado.dataVector[10]);
-            Graficar11(estado.dataVector[10], estado.aux)
-            if (estado.dataVector[10].length === numValores) Graficar11.disabled = false;
-          } else if (estado.receivingVector === 12 && estado.dataVector[11].length < numValores) {
-            estado.dataVector[11].push(numericData);
-            actualizarTabla(tablaBody6, estado.dataVector[11]);
-            Graficar12(estado.dataVector[11], estado.aux);
-            console.log(estado.dataVector[11].length);
-            if (estado.dataVector[11].length >= 50) {
-              modal.style.display = 'block';
-              body.style.overflow = 'auto';
-              for (let i = 0; i < numValores; i++) {
-                Vector1Prom = estado.dataVector[0].reduce((a, b) => a + b, 0) / estado.dataVector[0].length;
-                Vector2Prom = estado.dataVector[1].reduce((a, b) => a + b, 0) / estado.dataVector[1].length;
-                Vector3Prom = estado.dataVector[2].reduce((a, b) => a + b, 0) / estado.dataVector[2].length;
-                Vector4Prom = estado.dataVector[3].reduce((a, b) => a + b, 0) / estado.dataVector[3].length;
-                Vector5Prom = estado.dataVector[4].reduce((a, b) => a + b, 0) / estado.dataVector[4].length;
-                Vector6Prom = estado.dataVector[5].reduce((a, b) => a + b, 0) / estado.dataVector[5].length;
-                Vector7Prom = estado.dataVector[6].reduce((a, b) => a + b, 0) / estado.dataVector[6].length;
-                Vector8Prom = estado.dataVector[7].reduce((a, b) => a + b, 0) / estado.dataVector[7].length;
-                Vector9Prom = estado.dataVector[8].reduce((a, b) => a + b, 0) / estado.dataVector[8].length;
-                Vector10Prom = estado.dataVector[9].reduce((a, b) => a + b, 0) / estado.dataVector[9].length;
-                Vector11Prom = estado.dataVector[10].reduce((a, b) => a + b, 0) / estado.dataVector[10].length;
-                Vector12Prom = estado.dataVector[11].reduce((a, b) => a + b, 0) / estado.dataVector[11].length;
 
-                valMostrado.textContent = Vector1Prom.toFixed(3);
-              }
-            }
-            if (estado.dataVector12.length === numValores) Graficar12.disabled = false;
-          }
-        }
-      });
-    });
-  }
 
-  function Graficar(dataArray, label) {
-    myChart.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart.data.datasets[0].data = dataArray.slice();
-    myChart.data.datasets[0].label = label;
-    myChart.update();
-    estado.aux++;
-  }
-  function Graficar2(dataArray, label) {
-    myChart2.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart2.data.datasets[0].data = dataArray.slice();
-    myChart2.data.datasets[0].label = label;
-    myChart2.update();
-    estado.aux++;
-  }
-  function Graficar3(dataArray, label) {
-    myChart3.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart3.data.datasets[0].data = dataArray.slice();
-    myChart3.data.datasets[0].label = label;
-    myChart3.update();
-    estado.aux++;
-  }
-  function Graficar4(dataArray, label) {
-    myChart4.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart4.data.datasets[0].data = dataArray.slice();
-    myChart4.data.datasets[0].label = label;
-    myChart4.update();
-    estado.aux++;
-  }
-  function Graficar5(dataArray, label) {
-    myChart5.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart5.data.datasets[0].data = dataArray.slice();
-    myChart5.data.datasets[0].label = label;
-    myChart5.update();
-    estado.aux++;
-  }
-  function Graficar6(dataArray, label) {
-    myChart6.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart6.data.datasets[0].data = dataArray.slice();
-    myChart6.data.datasets[0].label = label;
-    myChart6.update();
-    estado.aux++;
-  }
-  function Graficar7(dataArray, label) {
-    myChart7.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart7.data.datasets[0].data = dataArray.slice();
-    myChart7.data.datasets[0].label = label;
-    myChart7.update();
-    estado.aux++;
-  }
-  function Graficar8(dataArray, label) {
-    myChart8.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart8.data.datasets[0].data = dataArray.slice();
-    myChart8.data.datasets[0].label = label;
-    myChart8.update();
-    estado.aux++;
-  }
-  function Graficar9(dataArray, label) {
-    myChart9.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart9.data.datasets[0].data = dataArray.slice();
-    myChart9.data.datasets[0].label = label;
-    myChart9.update();
-    estado.aux++;
-  }
-  function Graficar10(dataArray, label) {
-    myChart10.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart10.data.datasets[0].data = dataArray.slice();
-    myChart10.data.datasets[0].label = label;
-    myChart10.update();
-    estado.aux++;
-  }
-  function Graficar11(dataArray, label) {
-    myChart11.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart11.data.datasets[0].data = dataArray.slice();
-    myChart11.data.datasets[0].label = label;
-    myChart11.update();
-    estado.aux++;
-  }
-  function Graficar12(dataArray, label) {
-    myChart12.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
-    myChart12.data.datasets[0].data = dataArray.slice();
-    myChart12.data.datasets[0].label = label;
-    myChart12.update();
+  function Graficar(chart, dataArray, label) {
+    chart.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+    chart.data.datasets[0].data = dataArray.slice();
+    chart.data.datasets[0].label = label;
+    chart.update();
     estado.aux++;
   }
 
   // --- Eventos UI ---
   Datos.addEventListener("click", () => {
     if (estado.port && estado.port.writable) {
-      console.log("ESTOY TRATANDO");
       estado.dataVector1 = [];
       estado.dataVector2 = [];
       estado.dataVector3 = [];
@@ -874,17 +471,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       Graficar1.disabled = true;
-      Graficar2.disabled = true;
-      Graficar3.disabled = true;
-      Graficar4.disabled = true;
-      Graficar5.disabled = true;
-      Graficar6.disabled = true;
-      Graficar7.disabled = true;
-      Graficar8.disabled = true;
-      Graficar9.disabled = true;
-      Graficar10.disabled = true;
-      Graficar11.disabled = true;
-      Graficar12.disabled = true;
+      // Graficar2.disabled = true;
+      // Graficar3.disabled = true;
+      // Graficar4.disabled = true;
+      // Graficar5.disabled = true;
+      // Graficar6.disabled = true;
+      // Graficar7.disabled = true;
+      // Graficar8.disabled = true;
+      // Graficar9.disabled = true;
+      // Graficar10.disabled = true;
+      // Graficar11.disabled = true;
+      // Graficar12.disabled = true;
 
       myChart.data.datasets[0].data = [];
       myChart2.data.datasets[0].data = [];
@@ -932,9 +529,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-  btnVel1.addEventListener("click", () => {
-    window.apiSerial.enviarDato('1');
+  Save.addEventListener("click", () => {
+    window.apiSerial.enviarDato(Mode.value + ',');
+    window.apiSerial.enviarDato(time.value + '\n');
   });
+  
 
   Graficar1.addEventListener("click", () => {
     if (estado.dataVector1.length > 0) {

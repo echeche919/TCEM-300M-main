@@ -94,7 +94,6 @@ body.dark-mode .badge.bg-danger {
 .table {
   margin-bottom: 2rem;
   border-radius: 1rem;
-  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -118,7 +117,6 @@ body.dark-mode .badge.bg-danger {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
   /* Fondo semitransparente */
 }
@@ -130,7 +128,6 @@ body.dark-mode .badge.bg-danger {
   padding: 20px;
   width: 80%;
   max-width: 500px;
-  max-height: 1000px;
   border-radius: 8px;
   position: relative;
 }

@@ -39,39 +39,49 @@
     </span>
   </div>
   <!-- Botón para abrir el modal -->
-  <button class="btn btn-success btn-sm" id="openModalBtn">Abrir Analisis</button>
-  <br>
-  <h2 style="text-indent: 4%;">Velocidad!</h2>
-  <button style="" id="btnVel1">Rapido</button>
-  <button id="btnVel2">Medio</button>
-  <button id="btnVela3">Lento</button>
+  <datalist id="modos">
+    <option value="rapido">
+    <option value="medio">
+    <option value="lento">
+    <option value="ascendente">
+    <option value="descendente">
+    <option value="aleatorio">
+</datalist>
+  <button id="openModalBtn">Abrir Modal</button>
+  <form action="">
+    <input type="text" list="modos" name="modos" id="mode">
+    <label for="GET-time">Tiempo:</label>
+    <input type="number" id="time"/>
+    <input type="button" value="Save" id="Save"/>
+  </form>
   <!-- Modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
       <span id="closeModalBtn" class="close">&times;</span>
-      <div style="display:flex; flex-direction: column;">
       <h2>Evaluacion de la estructura</h2>
-      <h3>promedio de la aceleracion X</h3>
-      <li id="valMostrado">4.5</li>
-      <h3>promedio de la aceleracion Y</h3>
-      <li id="valMostrado">3.1</li>
-      <h3>promedio de la aceleracion Z</h3>
-      <li id="valMostrado">2.2</li>
-      <h3>promedio de la Giroscopio X</h3>
-      <li id="valMostrado">3.7</li>
-      <h3>promedio de la Giroscopio Y</h3>
-      <li id="valMostrado">10.5</li>
-      <h3>promedio de la Giroscopio Z</h3>
-      <li id="valMostrado">4.4</li>
-      </div>
-      <div style="display:flex; flex-direction: column; flex-wrap: wrap;">
-      <h3>promedio de la Inclinacion X</h3>
-      <li id="valMostrado">3.4</li>
-      <h3>promedio de la Inclinacion Y</h3>
-      <li id="valMostrado">2.2</li>
-      <h3>promedio de la Inclinacion Z</h3>
-      <li id="valMostrado">10.4</li>
-      </div>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia et quis velit, nesciunt at tempora a
+        blanditiis! Eligendi beatae perferendis sed, voluptatum sapiente quam ipsa, minima corporis ab, esse
+        deserunt?.</p>
+      <h2>prom1</h2>
+      <li id="valMostrado"></li>
+      <h2>prom2</h2>
+      <li id="valMostrado1"></li>
+      <h2>prom3</h2>
+      <li id="valMostrado2"></li>
+      <h2>prom4</h2>
+      <li id="valMostrado3"></li>
+      <h2>prom5</h2>
+      <li id="valMostrado4"></li>
+      <h2>prom6</h2>
+      <li id="valMostrado5"></li>
+      <h2>prom7</h2>
+      <li id="valMostrado6"></li>
+      <h2>prom8</h2>
+      <li id="valMostrado7"></li>
+      <h2>prom9</h2>
+      <li id="valMostrado8"></li>
+      <h2>prom10</h2>
+      <li id="valMostrado9"></li>
     </div>
   </div>
   <div class="row align-items-center">

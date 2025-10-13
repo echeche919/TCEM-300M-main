@@ -1,4 +1,3 @@
-
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { SerialPort } = require('serialport');
 let port = null;
@@ -21,21 +20,23 @@ function createWindow() {
   mainWindow.menuBarVisible = false;
   mainWindow.loadFile('index.html')
 }
-ipcMain.on('enviar-dato', async(event, options) => {
+ipcMain.on('enviar-dato', (event, data) => {
+  console.log(data);
   if (port && port.isOpen) {
-    port.close();
+    port.write(data, (err) => {
+      if (err) {
+        console.error('Error writing to port:', err.message);
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('serial-error', err.message);
+        }
+      }
+    });
+  } else {
+    console.error('Port is not open. Cannot send data.');
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('serial-error', 'Port is not open. Cannot send data.');
+    }
   }
-  port = new SerialPort({ path: options.path, baudRate: options.baudRate });
-  port.on('open', () => {
-    console.log('Serial port opened:', options.path);
-  });
-  port.on('data', (data) => {
-    event.sender.send('serial-data', data.toString());
-  });
-  port.on('error', (err) => {
-    event.sender.send('serial-error', err.message);
-  });
-  return { ok: true };
 });
 
 // Handler para listar puertos serie
@@ -57,11 +58,15 @@ ipcMain.handle('open-serial-port', async (event, options) => {
     console.log('Serial port opened:', port.isOpen);
   });
   port.on('data', (data) => {
-    event.sender.send('serial-data', data.toString());
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('serial-data', data.toString());
+    }
   });
   port.on('error', (err) => {
     console.error('Serial port error:', err.message);
-    event.sender.send('serial-error', err.message);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('serial-error', err.message);
+    }
   });
   port.on('close', () => {
     console.log('Serial port closed');
@@ -73,7 +78,7 @@ ipcMain.handle('open-serial-port', async (event, options) => {
 });
 
 app.whenReady().then(() => {
-  createWindow()
+  createWindow()  
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
