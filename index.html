@@ -18,7 +18,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body id="Body">
   <header>
     <div class="d-flex align-items-center">
 
@@ -27,11 +27,7 @@
       <div style="width: 50px;"></div>
   </header>
 
-  <div class="d-flex justify-content-center my-3">
-    <button id="Datos" class="btn btn-success btn-sm" disabled>
-      Iniciar transmisión desde ESP
-    </button>
-  </div>
+
   <div class="position-absolute top-0 end-0 m-3">
     <span id="port" class="badge bg-warning text-dark p-2 fs-6"><span class="spinner-border spinner-border-sm me-2"
         role="status" aria-hidden="true"></span>
@@ -46,13 +42,16 @@
     <option value="ascendente">
     <option value="descendente">
     <option value="aleatorio">
-</datalist>
-  <button id="openModalBtn">Abrir Modal</button>
+  </datalist>
+  <button title="Este boton abre la Evaluacion" class="btn btn-primary" id="openModalBtn">Evaluacion</button>
   <form action="">
-    <input type="text" list="modos" name="modos" id="mode">
+    <label for="GET-mode">Modo:</label>
+    <input class="btn btn-outline-secondary dropdown-toggle" title="Especificar el modo en el que mover el tablero"
+      type="text" list="modos" name="modos" id="mode" style="margin-right: 5%;">
     <label for="GET-time">Tiempo:</label>
-    <input type="number" id="time"/>
-    <input type="button" value="Save" id="Save"/>
+    <input class="btn btn-outline-secondary dropdown-toggle"
+      title="Especificar el tiempo que el tablero se estara moviendo en ese modo" type="number" id="time" />
+    <input type="button" value="Save" id="Save" class="btn btn-primary" />
   </form>
   <!-- Modal -->
   <div id="myModal" class="modal">
@@ -62,27 +61,73 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia et quis velit, nesciunt at tempora a
         blanditiis! Eligendi beatae perferendis sed, voluptatum sapiente quam ipsa, minima corporis ab, esse
         deserunt?.</p>
-      <h2>prom1</h2>
-      <li id="valMostrado"></li>
-      <h2>prom2</h2>
-      <li id="valMostrado1"></li>
-      <h2>prom3</h2>
-      <li id="valMostrado2"></li>
-      <h2>prom4</h2>
-      <li id="valMostrado3"></li>
-      <h2>prom5</h2>
-      <li id="valMostrado4"></li>
-      <h2>prom6</h2>
-      <li id="valMostrado5"></li>
-      <h2>prom7</h2>
-      <li id="valMostrado6"></li>
-      <h2>prom8</h2>
-      <li id="valMostrado7"></li>
-      <h2>prom9</h2>
-      <li id="valMostrado8"></li>
-      <h2>prom10</h2>
-      <li id="valMostrado9"></li>
+      <div style="flex-direction: column;display:flex;">
+        <div style="flex-direction: row;display:flex;">
+        <div>
+          <h4>Sensor 1</h4>
+          <h5>Aceleracion Lineal Z</h5>
+          <p id="valMostrado"></p>
+          <h5>Aceleracion Lineal Y</h5>
+          <p id="valMostrado1"></p>
+          <h5>Aceleracion Lineal X</h5>
+          <p id="valMostrado2"></p>
+          <h5>Aceleracion Angular X</h5>
+          <p id="valMostrado3"></p>
+          <h5>Aceleracion Angular Y</h5>
+          <p id="valMostrado4"></p>
+          <h5>Aceleracion Angular Z</h5>
+          <p id="valMostrado5"></p>
+        </div>
+        <div>
+          <h4>Sensor 2</h4>
+          <h5>Aceleracion Lineal Z</h5>
+          <p id="valMostrado6"></p>
+          <h5>Aceleracion Lineal Y</h5>
+          <p id="valMostrado7"></p>
+          <h5>Aceleracion Lineal X</h5>
+          <p id="valMostrado8"></p>
+          <h5>Aceleracion Angular X</h5>
+          <p id="valMostrado9"></p>
+          <h5>Aceleracion Angular Y</h5>
+          <p id="valMostrado10"></p>
+          <h5>Aceleracion Angular Z</h5>
+          <p id="valMostrado11"></p>
+        </div>
+      </div>
+      <div style="flex-direction: row;display:flex;">
+      <div>
+        <h4>Sensor 1</h4>
+        <h5>Aceleracion Lineal Z</h5>
+        <p id="valMostrado"></p>
+        <h5>Aceleracion Lineal Y</h5>
+        <p id="valMostrado1"></p>
+        <h5>Aceleracion Lineal X</h5>
+        <p id="valMostrado2"></p>
+        <h5>Aceleracion Angular X</h5>
+        <p id="valMostrado3"></p>
+        <h5>Aceleracion Angular Y</h5>
+        <p id="valMostrado4"></p>
+        <h5>Aceleracion Angular Z</h5>
+        <p id="valMostrado5"></p>
+      </div>
+      <div>
+        <h4>Sensor 2</h4>
+        <h5>Aceleracion Lineal Z</h5>
+        <p id="valMostrado6"></p>
+        <h5>Aceleracion Lineal Y</h5>
+        <p id="valMostrado7"></p>
+        <h5>Aceleracion Lineal X</h5>
+        <p id="valMostrado8"></p>
+        <h5>Aceleracion Angular X</h5>
+        <p id="valMostrado9"></p>
+        <h5>Aceleracion Angular Y</h5>
+        <p id="valMostrado10"></p>
+        <h5>Aceleracion Angular Z</h5>
+        <p id="valMostrado11"></p>
+      </div>
     </div>
+  </div>
+  </div>
   </div>
   <div class="row align-items-center">
     <div class="col">
@@ -105,11 +150,7 @@
   </div>
   </div>
   </div>
-  <div class="d-flex justify-content-center">
-    <button id="btnGraficarTabla1" class="btn btn-success" disabled>
-      Graficar
-    </button>
-  </div>
+
   <div class="row mt-5">
     <div class="d-inline-flex p-2 bd-highlight">
       <table id="tablaValores1" class="table">
@@ -176,6 +217,7 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      const body = document.getElementById('Body');
       const modal = document.getElementById('myModal');
       const openBtn = document.getElementById('openModalBtn');
       const closeBtn = document.getElementById('closeModalBtn');
@@ -184,7 +226,7 @@
       openBtn.addEventListener('click', function () {
         modal.style.display = 'block';
         body.style.overflow = 'hidden';
-
+        console.log("Abrir modal");
       });
 
       // Cerrar modal al hacer clic en la X

@@ -31,16 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
     aux: 0,
     MPU: null
   };
-  const numValores = 50;
+  let numValores = 0;
   const ESP = [
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
   ];
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
-  const Datos = document.getElementById("Datos");
   const toggleBtn = document.getElementById("Modo Oscuro");
-  const Graficar1 = document.getElementById("btnGraficarTabla1");
   const tablaBody1 = document.querySelector("#tablaValores1 tbody");
   const tablaBody2 = document.querySelector("#tablaValores2 tbody");
   const tablaBody3 = document.querySelector("#tablaValores3 tbody");
@@ -49,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody6 = document.querySelector("#tablaValores6 tbody");
   const tablaModal = document.querySelector("#tablaModal tbody");
   const modal = document.getElementById('myModal');
-
+  const body = document.getElementById('Body');
   const valMostrado = document.getElementById('valMostrado');
   const valMostrado1 = document.getElementById('valMostrado1');
   const valMostrado2 = document.getElementById('valMostrado2');
@@ -60,6 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const valMostrado7 = document.getElementById('valMostrado7');
   const valMostrado8 = document.getElementById('valMostrado8');
   const valMostrado9 = document.getElementById('valMostrado9');
+  const valMostrado10 = document.getElementById('valMostrado10');
+  const valMostrado11 = document.getElementById('valMostrado11');
+
 
   const iconoModo = document.getElementById("icono-modo");
   const textoModo = document.getElementById("texto-modo");
@@ -77,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         labels: [],
         datasets: [{
           backgroundColor: "rgba(0, 0, 255, 0.6)",
-          pointBackgroundColor: "rgba(0, 0, 255, 0.6)",
-          lineBackgroundColor: "rgba(130, 178, 251, 0.7)",
+          pointBackgroundColor: "hsla(30, 51%, 27%, 1) ",
+          lineBackgroundColor: "hsla(26, 95%, 90%, 1)",
           data: []
         }]
       },
@@ -110,9 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Inicialización UI ---
   function inicializarUI() {
-    PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TCEM 300M`;
+    PORTID.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Buscando TromerBench`;
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
-    Datos.disabled = true;
   }
   // --- Chart ---
   const myChart = CreateChart("myChart");
@@ -206,27 +206,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Serial port opened successfully, update UI directly
-        Datos.disabled = false;
-        PORTID.textContent = `TremmorBench conectado en ${matchingPort.path}`;
+        PORTID.textContent = `TromerBench conectado en ${matchingPort.path}`;
         PORTID.className = "badge bg-success text-light p-2 fs-6";
 
         // Cancelamos el interval porque ya tenemos el puerto abierto
         clearInterval(scanIntervalId);
 
         // TODO: Activar la laectura de datos en otro lado
-        //LecturaData();
-
       } catch (error) {
         console.error("Error al abrir el puerto serie:", error);
-        Datos.disabled = true;
       }
     }, 500);
   }
 
   window.apiSerial.onSerialClosed(() => {
     console.log("OnSerialClose event received");
-    Datos.disabled = true;
-    PORTID.textContent = "TremmorBench desconectado";
+    PORTID.textContent = "TromerBench desconectado";
     PORTID.className = "badge bg-danger text-light p-2 fs-6";
     estado.port = null;
   });
@@ -299,67 +294,54 @@ document.addEventListener("DOMContentLoaded", () => {
           estado.dataVector1.push(numericData);
           actualizarTabla(tablaBody1, estado.dataVector1);
           Graficar(myChart, estado.dataVector1, estado.aux)
-          if (estado.dataVector1.length === numValores) Graficar1.disabled = false;
-
         }
         else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
           estado.dataVector2.push(numericData);
           actualizarTabla(tablaBody2, estado.dataVector2);
           Graficar(myChart2, estado.dataVector2, estado.aux)
-          if (estado.dataVector2.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
           estado.dataVector3.push(numericData);
           actualizarTabla(tablaBody3, estado.dataVector3);
           Graficar(myChart3, estado.dataVector3, estado.aux)
-          if (estado.dataVector3.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
           estado.dataVector4.push(numericData);
           actualizarTabla(tablaBody4, estado.dataVector4);
           Graficar(myChart4, estado.dataVector4, estado.aux)
-          if (estado.dataVector4.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
           estado.dataVector5.push(numericData);
           actualizarTabla(tablaBody5, estado.dataVector5);
           Graficar(myChart5, estado.dataVector5, estado.aux)
-          if (estado.dataVector5.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
           estado.dataVector6.push(numericData);
           actualizarTabla(tablaBody6, estado.dataVector6);
           Graficar(myChart6, estado.dataVector6, estado.aux)
-          if (estado.dataVector6.length === numValores) Graficar1.disabled = false;
         }
       } else if (estado.MPU === 2) {
         if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
           estado.dataVector7.push(numericData);
           actualizarTabla(tablaBody1, estado.dataVector7);
           Graficar(myChart7, estado.dataVector7, estado.aux)
-          if (estado.dataVector7.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
           estado.dataVector8.push(numericData);
           actualizarTabla(tablaBody2, estado.dataVector8);
           Graficar(myChart8, estado.dataVector8, estado.aux)
-          if (estado.dataVector8.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
           estado.dataVector9.push(numericData);
           actualizarTabla(tablaBody3, estado.dataVector9);
           Graficar(myChart9, estado.dataVector9, estado.aux)
-          if (estado.dataVector9.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
           estado.dataVector10.push(numericData);
           actualizarTabla(tablaBody4, estado.dataVector10);
           Graficar(myChart10, estado.dataVector10, estado.aux)
-          if (estado.dataVector10.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
           estado.dataVector11.push(numericData);
           actualizarTabla(tablaBody5, estado.dataVector11);
           Graficar(myChart11, estado.dataVector11, estado.aux)
-          if (estado.dataVector11.length === numValores) Graficar1.disabled = false;
         } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
           estado.dataVector12.push(numericData);
           actualizarTabla(tablaBody6, estado.dataVector12);
           Graficar(myChart12, estado.dataVector12, estado.aux);
-          if (estado.dataVector12.length >= 50) {
-            const body = document.body;
+          if (estado.dataVector12.length >= numValores) {
             modal.style.display = 'block';
             for (let i = 0; i < numValores; i++) {
               Vector1Prom = estado.dataVector1.reduce((a, b) => a + b, 0) / estado.dataVector1.length;
@@ -382,6 +364,10 @@ document.addEventListener("DOMContentLoaded", () => {
               valMostrado8.textContent = Vector9Prom.toFixed(3);
               Vector10Prom = estado.dataVector10.reduce((a, b) => a + b, 0) / estado.dataVector10.length;
               valMostrado9.textContent = Vector10Prom.toFixed(3);
+              Vector11Prom = estado.dataVector11.reduce((a, b) => a + b, 0) / estado.dataVector11.length;
+              valMostrado10.textContent = Vector11Prom.toFixed(3);
+              Vector12Prom = estado.dataVector12.reduce((a, b) => a + b, 0) / estado.dataVector12.length;
+              valMostrado11.textContent = Vector12Prom.toFixed(3);
             }
           }
         }
@@ -414,132 +400,113 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Eventos UI ---
-  Datos.addEventListener("click", () => {
-    if (estado.port && estado.port.writable) {
-      estado.dataVector1 = [];
-      estado.dataVector2 = [];
-      estado.dataVector3 = [];
-      estado.dataVector4 = [];
-      estado.dataVector5 = [];
-      estado.dataVector6 = [];
-      estado.dataVector7 = [];
-      estado.dataVector8 = [];
-      estado.dataVector9 = [];
-      estado.dataVector10 = [];
-      estado.dataVector11 = [];
-      estado.dataVector12 = [];
-
-      if (estado.MPU === 1) {
-        if (data.toUpperCase() === "ACELZ") {
-          estado.receivingVector = 1;
-          return;
-        } else if (data.toUpperCase() === "ACELY") {
-          estado.receivingVector = 2;
-          return;
-        } else if (data.toUpperCase() === "ACELX") {
-          estado.receivingVector = 3;
-          return;
-        } else if (data.toUpperCase() === "GYROX") {
-          estado.receivingVector = 4;
-          return;
-        } else if (data.toUpperCase() === "GYROY") {
-          estado.receivingVector = 5;
-          return;
-        } else if (data.toUpperCase() === "GYROZ") {
-          estado.receivingVector = 6;
-          return;
-        }
-      } else if (estado.MPU === 2) {
-        if (data.toUpperCase() === "ACELZ") {
-          estado.receivingVector = 7;
-          return;
-        } else if (data.toUpperCase() === "ACELY") {
-          estado.receivingVector = 8;
-          return;
-        } else if (data.toUpperCase() === "ACELX") {
-          estado.receivingVector = 9;
-          return;
-        } else if (data.toUpperCase() === "GYROX") {
-          estado.receivingVector = 10;
-          return;
-        } else if (data.toUpperCase() === "GYROY") {
-          estado.receivingVector = 11;
-          return;
-        } else if (data.toUpperCase() === "GYROZ") {
-          estado.receivingVector = 12;
-          return;
-        }
-      }
-      Graficar1.disabled = true;
-      // Graficar2.disabled = true;
-      // Graficar3.disabled = true;
-      // Graficar4.disabled = true;
-      // Graficar5.disabled = true;
-      // Graficar6.disabled = true;
-      // Graficar7.disabled = true;
-      // Graficar8.disabled = true;
-      // Graficar9.disabled = true;
-      // Graficar10.disabled = true;
-      // Graficar11.disabled = true;
-      // Graficar12.disabled = true;
-
-      myChart.data.datasets[0].data = [];
-      myChart2.data.datasets[0].data = [];
-      myChart3.data.datasets[0].data = [];
-      myChart4.data.datasets[0].data = [];
-      myChart5.data.datasets[0].data = [];
-      myChart6.data.datasets[0].data = [];
-      myChart7.data.datasets[0].data = [];
-      myChart8.data.datasets[0].data = [];
-      myChart9.data.datasets[0].data = [];
-      myChart10.data.datasets[0].data = [];
-      myChart11.data.datasets[0].data = [];
-      myChart12.data.datasets[0].data = [];
-
-      myChart.update();
-      myChart2.update();
-      myChart3.update();
-      myChart4.update();
-      myChart5.update();
-      myChart6.update();
-      myChart7.update();
-      myChart8.update();
-      myChart9.update();
-      myChart10.update();
-      myChart11.update();
-      myChart12.update();
-
-      tablaBody1.innerHTML = "";
-      tablaBody2.innerHTML = "";
-      tablaBody3.innerHTML = "";
-      tablaBody4.innerHTML = "";
-      tablaBody5.innerHTML = "";
-      tablaBody6.innerHTML = "";
-      tablaBody7.innerHTML = "";
-      tablaBody8.innerHTML = "";
-      tablaBody9.innerHTML = "";
-      tablaBody10.innerHTML = "";
-      tablaBody11.innerHTML = "";
-      tablaBody12.innerHTML = "";
-
-      estado.port.write("START\n", (err) => {
-        if (err) {
-          console.error("Error al enviar START:", err.message);
-        }
-      });
-    }
-  });
   Save.addEventListener("click", () => {
+    console.log("Iniciando captura de datos...");
     window.apiSerial.enviarDato(Mode.value + ',');
     window.apiSerial.enviarDato(time.value + '\n');
-  });
-  
+    numValores = (parseInt(time.value)) * 2;
 
-  Graficar1.addEventListener("click", () => {
-    if (estado.dataVector1.length > 0) {
-      Graficar(estado.dataVector1, "Tabla 1");
+    estado.dataVector1 = [];
+    estado.dataVector2 = [];
+    estado.dataVector3 = [];
+    estado.dataVector4 = [];
+    estado.dataVector5 = [];
+    estado.dataVector6 = [];
+    estado.dataVector7 = [];
+    estado.dataVector8 = [];
+    estado.dataVector9 = [];
+    estado.dataVector10 = [];
+    estado.dataVector11 = [];
+    estado.dataVector12 = [];
+
+    if (estado.MPU === 1) {
+      if (data.toUpperCase() === "ACELZ") {
+        estado.receivingVector = 1;
+        return;
+      } else if (data.toUpperCase() === "ACELY") {
+        estado.receivingVector = 2;
+        return;
+      } else if (data.toUpperCase() === "ACELX") {
+        estado.receivingVector = 3;
+        return;
+      } else if (data.toUpperCase() === "GYROX") {
+        estado.receivingVector = 4;
+        return;
+      } else if (data.toUpperCase() === "GYROY") {
+        estado.receivingVector = 5;
+        return;
+      } else if (data.toUpperCase() === "GYROZ") {
+        estado.receivingVector = 6;
+        return;
+      }
+    } else if (estado.MPU === 2) {
+      if (data.toUpperCase() === "ACELZ") {
+        estado.receivingVector = 7;
+        return;
+      } else if (data.toUpperCase() === "ACELY") {
+        estado.receivingVector = 8;
+        return;
+      } else if (data.toUpperCase() === "ACELX") {
+        estado.receivingVector = 9;
+        return;
+      } else if (data.toUpperCase() === "GYROX") {
+        estado.receivingVector = 10;
+        return;
+      } else if (data.toUpperCase() === "GYROY") {
+        estado.receivingVector = 11;
+        return;
+      } else if (data.toUpperCase() === "GYROZ") {
+        estado.receivingVector = 12;
+        return;
+      }
     }
-  });
+
+    myChart.data.datasets[0].data = [];
+    myChart2.data.datasets[0].data = [];
+    myChart3.data.datasets[0].data = [];
+    myChart4.data.datasets[0].data = [];
+    myChart5.data.datasets[0].data = [];
+    myChart6.data.datasets[0].data = [];
+    myChart7.data.datasets[0].data = [];
+    myChart8.data.datasets[0].data = [];
+    myChart9.data.datasets[0].data = [];
+    myChart10.data.datasets[0].data = [];
+    myChart11.data.datasets[0].data = [];
+    myChart12.data.datasets[0].data = [];
+
+    myChart.update();
+    myChart2.update();
+    myChart3.update();
+    myChart4.update();
+    myChart5.update();
+    myChart6.update();
+    myChart7.update();
+    myChart8.update();
+    myChart9.update();
+    myChart10.update();
+    myChart11.update();
+    myChart12.update();
+
+    tablaBody1.innerHTML = "";
+    tablaBody2.innerHTML = "";
+    tablaBody3.innerHTML = "";
+    tablaBody4.innerHTML = "";
+    tablaBody5.innerHTML = "";
+    tablaBody6.innerHTML = "";
+    tablaBody7.innerHTML = "";
+    tablaBody8.innerHTML = "";
+    tablaBody9.innerHTML = "";
+    tablaBody10.innerHTML = "";
+    tablaBody11.innerHTML = "";
+    tablaBody12.innerHTML = "";
+    estado.port.write("START\n", (err) => {
+      if (err) {
+        console.error("Error al enviar START:", err.message);
+      }
+    });
+  }
+  );
+
 
   toggleBtn.addEventListener("click", alternarTema);
 

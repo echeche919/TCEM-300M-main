@@ -126,7 +126,7 @@ body.dark-mode .badge.bg-danger {
   background-color: white;
   margin: 15% auto;
   padding: 20px;
-  width: 80%;
+  width: 85%;
   max-width: 500px;
   border-radius: 8px;
   position: relative;
@@ -145,4 +145,14 @@ body.dark-mode .badge.bg-danger {
 
 .close:hover {
   color: black;
+}
+
+.btn.btn-outline-secondary.dropdown-toggle {
+  margin-right: 5%;
+}
+
+.btn.btn-primary {
+  margin: 2%;
+  background-color: #b68e65;
+  border-color: #b68e65;
 }
