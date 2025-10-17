@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
   ];
+  const labels = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5, 26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41, 41.5, 42, 42.5, 43, 43.5, 44, 44.5, 45, 45.5, 46, 46.5, 47, 47.5, 48, 48.5, 49, 49.5, 50];
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
   const toggleBtn = document.getElementById("Modo Oscuro");
@@ -45,6 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody4 = document.querySelector("#tablaValores4 tbody");
   const tablaBody5 = document.querySelector("#tablaValores5 tbody");
   const tablaBody6 = document.querySelector("#tablaValores6 tbody");
+  const tablaBody7 = document.querySelector("#tablaValores7 tbody");
+
   const tablaModal = document.querySelector("#tablaModal tbody");
   const modal = document.getElementById('myModal');
   const body = document.getElementById('Body');
@@ -69,13 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const Mode = document.getElementById("mode");
   const time = document.getElementById("time");
 
-  function CreateChart(chartId) {
+  function CreateChart(chartId, name) {
     const ctx = document.getElementById(chartId).getContext("2d");
 
     return new Chart(ctx, {
       type: "line",
       data: {
-        labels: [],
+        labels: labels,
         datasets: [{
           backgroundColor: "rgba(0, 0, 255, 0.6)",
           pointBackgroundColor: "hsla(30, 51%, 27%, 1) ",
@@ -90,14 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
             beginAtZero: true,
             max: 30,
             min: -30,
-            title: { display: true, text: 'Aceleracion Z', color: "#222" },
+            title: { display: true, text: name, color: "#222" },
             ticks: { color: "#222" }
           },
           x: {
             beginAtZero: true,
             max: 50,
             title: { display: true, text: 'Segundos', color: "#222" },
-            ticks: { color: "#222" }
+            ticks: { color: "#222", stepSize: 0.5 },
           }
         },
         plugins: {
@@ -115,18 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
   }
   // --- Chart ---
-  const myChart = CreateChart("myChart");
-  const myChart2 = CreateChart("myChart2");
-  const myChart3 = CreateChart("myChart3");
-  const myChart4 = CreateChart("myChart4");
-  const myChart5 = CreateChart("myChart5");
-  const myChart6 = CreateChart("myChart6");
-  const myChart7 = CreateChart("myChart7");
-  const myChart8 = CreateChart("myChart8");
-  const myChart9 = CreateChart("myChart9");
-  const myChart10 = CreateChart("myChart10");
-  const myChart11 = CreateChart("myChart11");
-  const myChart12 = CreateChart("myChart12");
+  const myChart = CreateChart("myChart", "Aceleracion Z");
+  const myChart2 = CreateChart("myChart2", "Aceleracion X");
+  const myChart3 = CreateChart("myChart3", "Aceleracion Y");
+  const myChart4 = CreateChart("myChart4", "Giroscopio X");
+  const myChart5 = CreateChart("myChart5", "Giroscopio Y");
+  const myChart6 = CreateChart("myChart6", "Giroscopio Z");
+  const myChart7 = CreateChart("myChart7", "Aceleracion X");
+  const myChart8 = CreateChart("myChart8", "Aceleracion Y");
+  const myChart9 = CreateChart("myChart9", "Aceleracion Z");
+  const myChart10 = CreateChart("myChart10", "Giroscopio Z");
+  const myChart11 = CreateChart("myChart11", "Giroscopio X");
+  const myChart12 = CreateChart("myChart12", "Giroscopio Y");
 
   // --- Tema ---
   function aplicarTema(modoOscuro) {
@@ -396,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chart.data.datasets[0].data = dataArray.slice();
     chart.data.datasets[0].label = label;
     chart.update();
-    estado.aux++;
+    estado.aux = estado.aux + 0.5;
   }
 
   // --- Eventos UI ---
