@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           x: {
             beginAtZero: true,
-            max: 50,
+            max: 25,
             title: { display: true, text: 'Segundos', color: "#222" },
             ticks: { color: "#222", stepSize: 0.5 },
           }
@@ -296,54 +296,54 @@ document.addEventListener("DOMContentLoaded", () => {
         if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
           estado.dataVector1.push(numericData);
           actualizarTabla(tablaBody1, estado.dataVector1);
-          Graficar(myChart, estado.dataVector1, estado.aux)
+          Graficar(myChart, estado.dataVector1)
         }
         else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
           estado.dataVector2.push(numericData);
           actualizarTabla(tablaBody2, estado.dataVector2);
-          Graficar(myChart2, estado.dataVector2, estado.aux)
+          Graficar(myChart2, estado.dataVector2)
         } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
           estado.dataVector3.push(numericData);
           actualizarTabla(tablaBody3, estado.dataVector3);
-          Graficar(myChart3, estado.dataVector3, estado.aux)
+          Graficar(myChart3, estado.dataVector3)
         } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
           estado.dataVector4.push(numericData);
           actualizarTabla(tablaBody4, estado.dataVector4);
-          Graficar(myChart4, estado.dataVector4, estado.aux)
+          Graficar(myChart4, estado.dataVector4)
         } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
           estado.dataVector5.push(numericData);
           actualizarTabla(tablaBody5, estado.dataVector5);
-          Graficar(myChart5, estado.dataVector5, estado.aux)
+          Graficar(myChart5, estado.dataVector5)
         } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
           estado.dataVector6.push(numericData);
           actualizarTabla(tablaBody6, estado.dataVector6);
-          Graficar(myChart6, estado.dataVector6, estado.aux)
+          Graficar(myChart6, estado.dataVector6)
         }
       } else if (estado.MPU === 2) {
         if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
           estado.dataVector7.push(numericData);
           actualizarTabla(tablaBody1, estado.dataVector7);
-          Graficar(myChart7, estado.dataVector7, estado.aux)
+          Graficar(myChart7, estado.dataVector7)
         } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
           estado.dataVector8.push(numericData);
           actualizarTabla(tablaBody2, estado.dataVector8);
-          Graficar(myChart8, estado.dataVector8, estado.aux)
+          Graficar(myChart8, estado.dataVector8)
         } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
           estado.dataVector9.push(numericData);
           actualizarTabla(tablaBody3, estado.dataVector9);
-          Graficar(myChart9, estado.dataVector9, estado.aux)
+          Graficar(myChart9, estado.dataVector9)
         } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
           estado.dataVector10.push(numericData);
           actualizarTabla(tablaBody4, estado.dataVector10);
-          Graficar(myChart10, estado.dataVector10, estado.aux)
+          Graficar(myChart10, estado.dataVector10)
         } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
           estado.dataVector11.push(numericData);
           actualizarTabla(tablaBody5, estado.dataVector11);
-          Graficar(myChart11, estado.dataVector11, estado.aux)
+          Graficar(myChart11, estado.dataVector11)
         } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
           estado.dataVector12.push(numericData);
           actualizarTabla(tablaBody6, estado.dataVector12);
-          Graficar(myChart12, estado.dataVector12, estado.aux);
+          Graficar(myChart12, estado.dataVector12);
           if (estado.dataVector12.length >= numValores) {
             modal.style.display = 'block';
             for (let i = 0; i < numValores; i++) {
@@ -394,12 +394,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  function Graficar(chart, dataArray, label) {
-    chart.data.labels = dataArray.map((_, i) => i); // agrega los labels para eje X
+  function Graficar(chart, dataArray) {
     chart.data.datasets[0].data = dataArray.slice();
-    chart.data.datasets[0].label = label;
     chart.update();
-    estado.aux = estado.aux + 0.5;
   }
 
   // --- Eventos UI ---
