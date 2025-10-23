@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody4 = document.querySelector("#tablaValores4 tbody");
   const tablaBody5 = document.querySelector("#tablaValores5 tbody");
   const tablaBody6 = document.querySelector("#tablaValores6 tbody");
-  const tablaBody7 = document.querySelector("#tablaValores7 tbody");
 
   const tablaModal = document.querySelector("#tablaModal tbody");
   const modal = document.getElementById('myModal');
@@ -64,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const valMostrado10 = document.getElementById('valMostrado10');
   const valMostrado11 = document.getElementById('valMostrado11');
 
-
   const iconoModo = document.getElementById("icono-modo");
   const textoModo = document.getElementById("texto-modo");
 
@@ -73,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const time = document.getElementById("time");
 
   function CreateChart(chartId, name) {
-    const ctx = document.getElementById(chartId).getContext("2d");
+  const ctx = document.getElementById(chartId).getContext("2d");
 
     return new Chart(ctx, {
       type: "line",
@@ -235,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   window.apiSerial.onSerialData((data) => {
+    
     estado.buffer += data;
     let lines = estado.buffer.split("\n");
     estado.buffer = lines.pop();
@@ -295,53 +294,65 @@ document.addEventListener("DOMContentLoaded", () => {
       if (estado.MPU === 1) {
         if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
           estado.dataVector1.push(numericData);
+          window.apiSerial.datoBase({ nombre:"XAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody1, estado.dataVector1);
           Graficar(myChart, estado.dataVector1)
         }
         else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
           estado.dataVector2.push(numericData);
+          window.apiSerial.datoBase({ nombre:"YAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody2, estado.dataVector2);
           Graficar(myChart2, estado.dataVector2)
         } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
           estado.dataVector3.push(numericData);
+          window.apiSerial.datoBase({ nombre:"ZAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody3, estado.dataVector3);
           Graficar(myChart3, estado.dataVector3)
         } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
           estado.dataVector4.push(numericData);
+          window.apiSerial.datoBase({ nombre:"XGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody4, estado.dataVector4);
           Graficar(myChart4, estado.dataVector4)
         } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
           estado.dataVector5.push(numericData);
+          window.apiSerial.datoBase({ nombre:"YGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody5, estado.dataVector5);
           Graficar(myChart5, estado.dataVector5)
         } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
           estado.dataVector6.push(numericData);
+          window.apiSerial.datoBase({ nombre:"ZGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody6, estado.dataVector6);
           Graficar(myChart6, estado.dataVector6)
         }
       } else if (estado.MPU === 2) {
         if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
           estado.dataVector7.push(numericData);
+          window.apiSerial.datoBase({ nombre:"XAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody1, estado.dataVector7);
           Graficar(myChart7, estado.dataVector7)
         } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
           estado.dataVector8.push(numericData);
+          window.apiSerial.datoBase({ nombre:"YAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody2, estado.dataVector8);
           Graficar(myChart8, estado.dataVector8)
         } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
           estado.dataVector9.push(numericData);
+          window.apiSerial.datoBase({ nombre:"ZAcel", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody3, estado.dataVector9);
           Graficar(myChart9, estado.dataVector9)
         } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
           estado.dataVector10.push(numericData);
+          window.apiSerial.datoBase({ nombre:"XGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody4, estado.dataVector10);
           Graficar(myChart10, estado.dataVector10)
         } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
           estado.dataVector11.push(numericData);
+          window.apiSerial.datoBase({ nombre:"YGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody5, estado.dataVector11);
           Graficar(myChart11, estado.dataVector11)
         } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
           estado.dataVector12.push(numericData);
+          window.apiSerial.datoBase({ nombre:"ZGir", modo:Mode.value, valor: numericData});
           actualizarTabla(tablaBody6, estado.dataVector12);
           Graficar(myChart12, estado.dataVector12);
           if (estado.dataVector12.length >= numValores) {
@@ -401,6 +412,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Eventos UI ---
   Save.addEventListener("click", () => {
+    window.apiSerial.conectar();
+    //window.apiSerial.datoBase({ nombre:"nombre1", modo:"rapido", valor:"15"});
+
     console.log("Iniciando captura de datos...");
     window.apiSerial.enviarDato(Mode.value + ',');
     window.apiSerial.enviarDato(time.value + '\n');
@@ -493,17 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tablaBody4.innerHTML = "";
     tablaBody5.innerHTML = "";
     tablaBody6.innerHTML = "";
-    tablaBody7.innerHTML = "";
-    tablaBody8.innerHTML = "";
-    tablaBody9.innerHTML = "";
-    tablaBody10.innerHTML = "";
-    tablaBody11.innerHTML = "";
-    tablaBody12.innerHTML = "";
-    estado.port.write("START\n", (err) => {
-      if (err) {
-        console.error("Error al enviar START:", err.message);
-      }
-    });
+
   }
   );
 

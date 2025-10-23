@@ -5,13 +5,15 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "Ezequiel Duran",
   "license": "",
   "devDependencies": {
-    "electron": "^28.3.3"
+      "electron-prebuilt-compile": "8.2.0"
   },
   "dependencies": {
     "bootstrap": "^5.3.6",

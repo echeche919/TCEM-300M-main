@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { SerialPort } = require('serialport');
+const mysql = require('mysql');
+
 let port = null;
 let mainWindow = null;
 const path = require('path');
@@ -20,6 +22,36 @@ function createWindow() {
   mainWindow.menuBarVisible = false;
   mainWindow.loadFile('index.html')
 }
+ipcMain.on('conectar', (event) => {
+  var connection = mysql.createConnection({
+  "server": "localhost",
+  "port": 3306,
+  "database": "sys",
+  "user": "root",
+  "password": "131412",
+});  
+ipcMain.on('datoBase', (event, data) => {
+  const { nombre, modo, valor } = data;
+  console.log(`Insertando en DB: Nombre=${nombre}, Modo=${modo}, Valor=${valor}`);
+  const query = 'INSERT INTO users (nombre, modo, valor) VALUES (?, ?, ?)';
+  connection.query(query, [nombre, modo, valor], (err, result) => {
+    if (err) {
+      console.error('Error al insertar:', err);
+      return;
+    }
+    console.log('Insercion exitosa');
+  });
+});
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+
+  console.log('connected as id ' + connection.threadId);
+});
+});
+
 ipcMain.on('enviar-dato', (event, data) => {
   console.log(data);
   if (port && port.isOpen) {
@@ -74,11 +106,11 @@ ipcMain.handle('open-serial-port', async (event, options) => {
       mainWindow.webContents.send('serial-close');
     }
   });
-  return {isOpen: port.isOpen };
+  return { isOpen: port.isOpen };
 });
 
 app.whenReady().then(() => {
-  createWindow()  
+  createWindow()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

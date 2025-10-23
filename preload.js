@@ -7,4 +7,6 @@ contextBridge.exposeInMainWorld('apiSerial', {
   openSerialPort: (options) => ipcRenderer.invoke('open-serial-port', options),
   onSerialClosed: (callback) => ipcRenderer.on('serial-close', () => callback()),
   onSerialOpened: (callback) => ipcRenderer.on('port-opened', () => callback()),
+  conectar: () => ipcRenderer.send('conectar'),
+  datoBase: (data) => ipcRenderer.send('datoBase', data),
 });
