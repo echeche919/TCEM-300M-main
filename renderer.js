@@ -35,7 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ESP = [
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
-  ];
+  ]
+  let prueba = 1, Xacel = 0, Yacel = 0, Zacel = 0, XGir = 0, YGir = 0, ZGir = 0, Xacel2 = 0, Yacel2 = 0, Zacel2 = 0, XGir2 = 0, YGir2 = 0, ZGir2 = 0;
   const labels = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5, 26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41, 41.5, 42, 42.5, 43, 43.5, 44, 44.5, 45, 45.5, 46, 46.5, 47, 47.5, 48, 48.5, 49, 49.5, 50];
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           x: {
             beginAtZero: true,
-            max: 25,
+            max: 50,
             title: { display: true, text: 'Segundos', color: "#222" },
             ticks: { color: "#222", stepSize: 0.5 },
           }
@@ -287,6 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       }
+      
       const numericData = parseFloat(data);
       if (isNaN(numericData)) {
         return;
@@ -294,65 +296,76 @@ document.addEventListener("DOMContentLoaded", () => {
       if (estado.MPU === 1) {
         if (estado.receivingVector === 1 && estado.dataVector1.length < numValores) {
           estado.dataVector1.push(numericData);
-          window.apiSerial.datoBase({ nombre:"XAcel", modo:Mode.value, valor: numericData});
+          Xacel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody1, estado.dataVector1);
-          Graficar(myChart, estado.dataVector1)
-        }
-        else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
+          Graficar(myChart, estado.dataVector1);
+        }else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
           estado.dataVector2.push(numericData);
-          window.apiSerial.datoBase({ nombre:"YAcel", modo:Mode.value, valor: numericData});
+          Yacel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody2, estado.dataVector2);
-          Graficar(myChart2, estado.dataVector2)
+          Graficar(myChart2, estado.dataVector2);
         } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
           estado.dataVector3.push(numericData);
-          window.apiSerial.datoBase({ nombre:"ZAcel", modo:Mode.value, valor: numericData});
+          Zacel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody3, estado.dataVector3);
-          Graficar(myChart3, estado.dataVector3)
+          Graficar(myChart3, estado.dataVector3);
         } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
           estado.dataVector4.push(numericData);
-          window.apiSerial.datoBase({ nombre:"XGir", modo:Mode.value, valor: numericData});
+          XGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody4, estado.dataVector4);
-          Graficar(myChart4, estado.dataVector4)
+          Graficar(myChart4, estado.dataVector4);
         } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
           estado.dataVector5.push(numericData);
-          window.apiSerial.datoBase({ nombre:"YGir", modo:Mode.value, valor: numericData});
+          YGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody5, estado.dataVector5);
-          Graficar(myChart5, estado.dataVector5)
+          Graficar(myChart5, estado.dataVector5);
         } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
           estado.dataVector6.push(numericData);
-          window.apiSerial.datoBase({ nombre:"ZGir", modo:Mode.value, valor: numericData});
+          ZGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody6, estado.dataVector6);
-          Graficar(myChart6, estado.dataVector6)
+          Graficar(myChart6, estado.dataVector6);
         }
       } else if (estado.MPU === 2) {
         if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
           estado.dataVector7.push(numericData);
-          window.apiSerial.datoBase({ nombre:"XAcel", modo:Mode.value, valor: numericData});
+          XAcel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody1, estado.dataVector7);
-          Graficar(myChart7, estado.dataVector7)
+          Graficar(myChart7, estado.dataVector7);
         } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
           estado.dataVector8.push(numericData);
-          window.apiSerial.datoBase({ nombre:"YAcel", modo:Mode.value, valor: numericData});
+          Yacel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody2, estado.dataVector8);
-          Graficar(myChart8, estado.dataVector8)
+          Graficar(myChart8, estado.dataVector8);
         } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
           estado.dataVector9.push(numericData);
-          window.apiSerial.datoBase({ nombre:"ZAcel", modo:Mode.value, valor: numericData});
+          Zacel = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody3, estado.dataVector9);
-          Graficar(myChart9, estado.dataVector9)
+          Graficar(myChart9, estado.dataVector9);
         } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
           estado.dataVector10.push(numericData);
-          window.apiSerial.datoBase({ nombre:"XGir", modo:Mode.value, valor: numericData});
+          XGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody4, estado.dataVector10);
-          Graficar(myChart10, estado.dataVector10)
+          Graficar(myChart10, estado.dataVector10);
         } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
           estado.dataVector11.push(numericData);
-          window.apiSerial.datoBase({ nombre:"YGir", modo:Mode.value, valor: numericData});
+          YGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody5, estado.dataVector11);
-          Graficar(myChart11, estado.dataVector11)
+          Graficar(myChart11, estado.dataVector11);
         } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
           estado.dataVector12.push(numericData);
-          window.apiSerial.datoBase({ nombre:"ZGir", modo:Mode.value, valor: numericData});
+          ZGir = numericData;
+          window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
           actualizarTabla(tablaBody6, estado.dataVector12);
           Graficar(myChart12, estado.dataVector12);
           if (estado.dataVector12.length >= numValores) {
@@ -386,6 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       }
+
     });
   });
 
@@ -411,8 +425,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Eventos UI ---
-  Save.addEventListener("click", () => {
-    window.apiSerial.conectar();
+  Save.addEventListener("click", async () => {
+    // ensure DB connection is established before querying/inserting
+    await window.apiSerial.conectar();
+    // wait for conexion() to fetch current max prueba
+    await conexion();
+    console.log("Prueba N°: " + prueba);
     //window.apiSerial.datoBase({ nombre:"nombre1", modo:"rapido", valor:"15"});
 
     console.log("Iniciando captura de datos...");
@@ -514,6 +532,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   toggleBtn.addEventListener("click", alternarTema);
 
+  async function conexion(){
+    try {
+      const res = await window.apiSerial.askBase('Prueba');
+      // askBase now returns a numeric max Prueba (or 0). Ensure we coerce to number.
+      const max = Number(res) || 0;
+      prueba = max;
+    } catch (err) {
+      console.error('Error fetching Prueba from DB:', err);
+      prueba = 0;
+    }
+    prueba++;
+    return prueba;
+  };
 
   inicializarUI();
   cargarTemaGuardado();

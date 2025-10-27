@@ -22,38 +22,69 @@ function createWindow() {
   mainWindow.menuBarVisible = false;
   mainWindow.loadFile('index.html')
 }
-ipcMain.on('conectar', (event) => {
-  var connection = mysql.createConnection({
-  "server": "localhost",
-  "port": 3306,
-  "database": "sys",
-  "user": "root",
-  "password": "131412",
-});  
+// Conectar: create or reuse a global MySQL connection. Exposed as an invoke so renderer can await it.
+ipcMain.handle('conectar', async () => {
+  if (global.connection && global.connection.state !== 'disconnected') {
+    console.log('MySQL already connected');
+    return true;
+  }
+
+  // create a connection and wait until it's connected (or fails)
+  global.connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    database: 'sys',
+    user: 'root',
+    password: '131412',
+  });
+
+  return new Promise((resolve) => {
+    global.connection.connect(function(err) {
+      if (err) {
+        console.error('error connecting: ' + err.stack);
+        global.connection = null;
+        resolve(false);
+        return;
+      }
+      console.log('connected as id ' + global.connection.threadId);
+      resolve(true);
+    });
+  });
+});
+
+// datoBase: insert a full row. Expect renderer to call conectar() first.
 ipcMain.on('datoBase', (event, data) => {
-  const { nombre, modo, valor } = data;
-  console.log(`Insertando en DB: Nombre=${nombre}, Modo=${modo}, Valor=${valor}`);
-  const query = 'INSERT INTO users (nombre, modo, valor) VALUES (?, ?, ?)';
-  connection.query(query, [nombre, modo, valor], (err, result) => {
+  const connection = global.connection;
+  if (!connection) {
+    console.warn('datoBase called but no DB connection');
+    return;
+  }
+
+  const { Sensor, Prueba, AceleracionX, AceleracionY, AceleracionZ, GiroscopioX, GiroscopioY, GiroscopioZ } = data;
+  const query = 'INSERT INTO users (Sensor, Prueba, AceleracionX, AceleracionY, AceleracionZ, GiroscopioX, GiroscopioY, GiroscopioZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  connection.query(query, [Sensor, Prueba, AceleracionX, AceleracionY, AceleracionZ, GiroscopioX, GiroscopioY, GiroscopioZ], (err, result) => {
     if (err) {
       console.error('Error al insertar:', err);
       return;
     }
-    console.log('Insercion exitosa');
   });
 });
-connection.connect(function(err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
 
-  console.log('connected as id ' + connection.threadId);
+ipcMain.handle('askBase', async (event) => {
+  return new Promise((resolve, reject) => {
+    if (!connection) return resolve(0);
+    const query = 'SELECT MAX(Prueba) AS maxPrueba FROM users';
+    connection.query(query, (err, results) => {
+      if (err) return reject(err);
+      const max = results && results[0] && results[0].maxPrueba != null ? results[0].maxPrueba : 0;
+      console.log("ACA ESTA MAX:", max);
+      resolve(max);
+    });
+  });
 });
-});
+
 
 ipcMain.on('enviar-dato', (event, data) => {
-  console.log(data);
   if (port && port.isOpen) {
     port.write(data, (err) => {
       if (err) {
