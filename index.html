@@ -57,7 +57,7 @@
   <!-- Modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
-      
+
       <span id="closeModalBtn" class="close">&times;</span>
       <h2>Evaluacion de la estructura</h2>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia et quis velit, nesciunt at tempora a
@@ -65,142 +65,82 @@
         deserunt?.</p>
       <div style="flex-direction: column;display:flex;">
         <div style="flex-direction: row;display:flex;">
-        <div>
-          <h4>Sensor 1 (MPU6050)</h4>
-          <h5>Aceleracion Lineal Z</h5>
-          <p id="valMostrado"></p>
-          <h5>Aceleracion Lineal Y</h5>
-          <p id="valMostrado1"></p>
-          <h5>Aceleracion Lineal X</h5>
-          <p id="valMostrado2"></p>
-          <h5>Aceleracion Angular X</h5>
-          <p id="valMostrado3"></p>
-          <h5>Aceleracion Angular Y</h5>
-          <p id="valMostrado4"></p>
-          <h5>Aceleracion Angular Z</h5>
-          <p id="valMostrado5"></p>
+          <div>
+            <h4>Sensor 1 (MPU6050)</h4>
+            <h5>Aceleracion Lineal Z</h5>
+            <p id="valMostrado"></p>
+            <h5>Aceleracion Lineal Y</h5>
+            <p id="valMostrado1"></p>
+            <h5>Aceleracion Lineal X</h5>
+            <p id="valMostrado2"></p>
+            <h5>Aceleracion Angular X</h5>
+            <p id="valMostrado3"></p>
+            <h5>Aceleracion Angular Y</h5>
+            <p id="valMostrado4"></p>
+            <h5>Aceleracion Angular Z</h5>
+            <p id="valMostrado5"></p>
+          </div>
+          <div>
+            <h4>Sensor 2 (MPU6050)</h4>
+            <h5>Aceleracion Lineal Z</h5>
+            <p id="valMostrado6"></p>
+            <h5>Aceleracion Lineal Y</h5>
+            <p id="valMostrado7"></p>
+            <h5>Aceleracion Lineal X</h5>
+            <p id="valMostrado8"></p>
+            <h5>Aceleracion Angular X</h5>
+            <p id="valMostrado9"></p>
+            <h5>Aceleracion Angular Y</h5>
+            <p id="valMostrado10"></p>
+            <h5>Aceleracion Angular Z</h5>
+            <p id="valMostrado11"></p>
+          </div>
         </div>
-        <div>
-          <h4>Sensor 2 (MPU6050)</h4>
-          <h5>Aceleracion Lineal Z</h5>
-          <p id="valMostrado6"></p>
-          <h5>Aceleracion Lineal Y</h5>
-          <p id="valMostrado7"></p>
-          <h5>Aceleracion Lineal X</h5>
-          <p id="valMostrado8"></p>
-          <h5>Aceleracion Angular X</h5>
-          <p id="valMostrado9"></p>
-          <h5>Aceleracion Angular Y</h5>
-          <p id="valMostrado10"></p>
-          <h5>Aceleracion Angular Z</h5>
-          <p id="valMostrado11"></p>
+        <div style="flex-direction: row;display:flex;">
+          <div>
+            <h4>Sensor 3 (MMA7361)</h4>
+            <h5>Inclinacion X</h5>
+            <p id="valMostrado12"></p>
+            <h5>Inclinacion Y</h5>
+            <p id="valMostrado13"></p>
+          </div>
+          <div>
+            <h4>Sensor 4 (MMA7361)</h4>
+            <h5>Inclinacion X</h5>
+            <p id="valMostrado14"></p>
+            <h5>Inclinacion Y</h5>
+            <p id="valMostrado15"></p>
+          </div>
         </div>
-      </div>
-      <div style="flex-direction: row;display:flex;">
-      <div>
-        <h4>Sensor 3 (MMA7361)</h4>
-        <h5>Inclinacion X</h5>
-        <p id="valMostrado12"></p>
-        <h5>Inclinacion Y</h5>
-        <p id="valMostrado13"></p>
-      </div>
-      <div>
-        <h4>Sensor 4 (MMA7361)</h4>
-        <h5>Inclinacion X</h5>
-        <p id="valMostrado14"></p>
-        <h5>Inclinacion Y</h5>
-        <p id="valMostrado15"></p>
       </div>
     </div>
-  </div>
-  </div>
   </div>
   <div class="row align-items-center">
     <div class="col">
-      <canvas id="myChart" width="50%" height="30%"></canvas>
-      <canvas id="myChart2" width="50%" height="30%"></canvas>
-      <canvas id="myChart3" width="50%" height="30%"></canvas>
-      <canvas id="myChart4" width="50%" height="30%"></canvas>
-      <canvas id="myChart5" width="50%" height="30%"></canvas>
-      <canvas id="myChart6" width="50%" height="30%"></canvas>
-      <canvas id="myChart13" width="50%" height="30%"></canvas>
-      <canvas id="myChart14" width="50%" height="30%"></canvas>
+      <canvas id="myChart"></canvas>
+      <canvas id="myChart2"></canvas>
+      <canvas id="myChart3"></canvas>
+      <canvas id="myChart4"></canvas>
+      <canvas id="myChart5"></canvas>
+      <canvas id="myChart6"></canvas>
+      <canvas id="myChart13"></canvas>
+      <canvas id="myChart14"></canvas>
 
     </div>
     <div class="col">
-      <canvas id="myChart7" width="50%" height="30%"></canvas>
-      <canvas id="myChart8" width="50%" height="30%"></canvas>
-      <canvas id="myChart9" width="50%" height="30%"></canvas>
-      <canvas id="myChart10" width="50%" height="30%"></canvas>
-      <canvas id="myChart11" width="50%" height="30%"></canvas>
-      <canvas id="myChart12" width="50%" height="30%"></canvas>
-      <canvas id="myChart15" width="50%" height="30%"></canvas>
-      <canvas id="myChart16" width="50%" height="30%"></canvas>
-
+      <canvas id="myChart7"></canvas>
+      <canvas id="myChart8"></canvas>
+      <canvas id="myChart9"></canvas>
+      <canvas id="myChart10"></canvas>
+      <canvas id="myChart11"></canvas>
+      <canvas id="myChart12"></canvas>
+      <canvas id="myChart15"></canvas>
+      <canvas id="myChart16"></canvas>
     </div>
     <hr>
   </div>
-  </div>
-  </div>
 
-  <div class="row mt-5">
-    <div class="d-inline-flex p-2 bd-highlight">
-      <table id="tablaValores1" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Acel Z</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table id="tablaValores2" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Acel Y</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table id="tablaValores3" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Acel X</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table id="tablaValores4" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Gyro X</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table id="tablaValores5" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Gyro Y</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <table id="tablaValores6" class="table">
-        <thead class="table-dark">
-          <tr>
-            <th style="width: 50%;">Tiempo</th>
-            <th style="width: 50%;">Gyro Z</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
+
   <div class="position-fixed bottom-0 start-0 m-3" style="z-index: 1050;">
     <button id="Modo Oscuro" class="btn btn-outline-secondary btn-sm">
       <span id="icono-modo">🌙</span>

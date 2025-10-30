@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     Vector16Prom: 0,
 
     receivingVector: 1,
-    aux: 0,
     MPU: null
   };
   let numValores = 0;
@@ -45,17 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
     { vendorId: '10C4', productIds: ['EA60'] }
   ]
   let prueba = 1, Xacel = 0, Yacel = 0, Zacel = 0, XGir = 0, YGir = 0, ZGir = 0, Xacel2 = 0, Yacel2 = 0, Zacel2 = 0, XGir2 = 0, YGir2 = 0, ZGir2 = 0, Xinclin1 = 0, Yinclin1 = 0, Xinclin2 = 0, Yinclin2 = 0;
-  const labels = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5, 26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41, 41.5, 42, 42.5, 43, 43.5, 44, 44.5, 45, 45.5, 46, 46.5, 47, 47.5, 48, 48.5, 49, 49.5, 50];
+  let labels = [];
+  let aux = 0;
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
   const toggleBtn = document.getElementById("Modo Oscuro");
-  const tablaBody1 = document.querySelector("#tablaValores1 tbody");
-  const tablaBody2 = document.querySelector("#tablaValores2 tbody");
-  const tablaBody3 = document.querySelector("#tablaValores3 tbody");
-  const tablaBody4 = document.querySelector("#tablaValores4 tbody");
-  const tablaBody5 = document.querySelector("#tablaValores5 tbody");
-  const tablaBody6 = document.querySelector("#tablaValores6 tbody");
-
   const tablaModal = document.querySelector("#tablaModal tbody");
   const modal = document.getElementById('myModal');
   const body = document.getElementById('Body');
@@ -326,37 +319,31 @@ document.addEventListener("DOMContentLoaded", () => {
           estado.dataVector1.push(numericData);
           Xacel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody1, estado.dataVector1);
           Graficar(myChart, estado.dataVector1);
         }else if (estado.receivingVector === 2 && estado.dataVector2.length < numValores) {
           estado.dataVector2.push(numericData);
           Yacel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody2, estado.dataVector2);
           Graficar(myChart2, estado.dataVector2);
         } else if (estado.receivingVector === 3 && estado.dataVector3.length < numValores) {
           estado.dataVector3.push(numericData);
           Zacel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody3, estado.dataVector3);
           Graficar(myChart3, estado.dataVector3);
         } else if (estado.receivingVector === 4 && estado.dataVector4.length < numValores) {
           estado.dataVector4.push(numericData);
           XGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody4, estado.dataVector4);
           Graficar(myChart4, estado.dataVector4);
         } else if (estado.receivingVector === 5 && estado.dataVector5.length < numValores) {
           estado.dataVector5.push(numericData);
           YGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba,AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody5, estado.dataVector5);
           Graficar(myChart5, estado.dataVector5);
         } else if (estado.receivingVector === 6 && estado.dataVector6.length < numValores) {
           estado.dataVector6.push(numericData);
           ZGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x68", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody6, estado.dataVector6);
           Graficar(myChart6, estado.dataVector6);
         }
       } else if (estado.MPU === 2) { //inclinacion
@@ -386,37 +373,31 @@ document.addEventListener("DOMContentLoaded", () => {
           estado.dataVector7.push(numericData);
           XAcel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody1, estado.dataVector7);
           Graficar(myChart7, estado.dataVector7);
         } else if (estado.receivingVector === 8 && estado.dataVector8.length < numValores) {
           estado.dataVector8.push(numericData);
           Yacel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody2, estado.dataVector8);
           Graficar(myChart8, estado.dataVector8);
         } else if (estado.receivingVector === 9 && estado.dataVector9.length < numValores) {
           estado.dataVector9.push(numericData);
           Zacel = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody3, estado.dataVector9);
           Graficar(myChart9, estado.dataVector9);
         } else if (estado.receivingVector === 10 && estado.dataVector10.length < numValores) {
           estado.dataVector10.push(numericData);
           XGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody4, estado.dataVector10);
           Graficar(myChart10, estado.dataVector10);
         } else if (estado.receivingVector === 11 && estado.dataVector11.length < numValores) {
           estado.dataVector11.push(numericData);
           YGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody5, estado.dataVector11);
           Graficar(myChart11, estado.dataVector11);
         } else if (estado.receivingVector === 12 && estado.dataVector12.length < numValores) {
           estado.dataVector12.push(numericData);
           ZGir = numericData;
           window.apiSerial.datoBase({ Sensor:"0x69", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
-          actualizarTabla(tablaBody6, estado.dataVector12);
           Graficar(myChart12, estado.dataVector12);
           if (estado.dataVector12.length >= numValores) {
             modal.style.display = 'block';
@@ -460,25 +441,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   });
-
-
-  // --- Tablas y datos ---
-  function actualizarTabla(tablaBody, dataArray) {
-    tablaBody.innerHTML = "";
-    dataArray.forEach((valor, i) => {
-      tablaBody.insertAdjacentHTML("beforeend", `
-        <tr>
-          <td>${i}</td>
-          <td>${valor.toFixed(3)}</td>
-        </tr>
-      `);
-    });
-  }
-
-
-
   function Graficar(chart, dataArray) {
     chart.data.datasets[0].data = dataArray.slice();
+    labels.push(aux);
+    aux = aux + 0.25;
     chart.update();
   }
 
@@ -508,7 +474,10 @@ document.addEventListener("DOMContentLoaded", () => {
     estado.dataVector10 = [];
     estado.dataVector11 = [];
     estado.dataVector12 = [];
-
+    estado.dataVector13 = [];
+    estado.dataVector14 = [];
+    estado.dataVector15 = [];
+    estado.dataVector16 = [];
     if (estado.MPU === 1) {
       if (data.toUpperCase() === "ACELZ") {
         estado.receivingVector = 1;
@@ -582,7 +551,8 @@ document.addEventListener("DOMContentLoaded", () => {
     myChart15.data.datasets[0].data = [];
     myChart16.data.datasets[0].data = [];
     
-
+    aux = 0;
+    labels = [];
     myChart.update();
     myChart2.update();
     myChart3.update();
@@ -599,14 +569,6 @@ document.addEventListener("DOMContentLoaded", () => {
     myChart14.update();
     myChart15.update();
     myChart16.update();
-
-    tablaBody1.innerHTML = "";
-    tablaBody2.innerHTML = "";
-    tablaBody3.innerHTML = "";
-    tablaBody4.innerHTML = "";
-    tablaBody5.innerHTML = "";
-    tablaBody6.innerHTML = "";
-
   }
   );
 

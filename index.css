@@ -168,6 +168,12 @@ body.dark-mode .badge.bg-danger {
   transition: all 0.15s ease-in-out;
   cursor: pointer;
 }
+
+canvas{
+  width: 50%;
+  height: 30%;
+}
+
 .btn-primary1:hover {
   background-color: #b68e65;
   border-color: #b68e65;

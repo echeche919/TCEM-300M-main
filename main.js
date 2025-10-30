@@ -8,7 +8,7 @@ const path = require('path');
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 1250,
     height: 2000,
     frame: true,
     icon: path.join(__dirname, 'logo.ico'),
