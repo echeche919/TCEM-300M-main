@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
     dataVector10: [],
     dataVector11: [],
     dataVector12: [],
+    dataVector13: [],
+    dataVector14: [],
+    dataVector15: [],
+    dataVector16: [],
     Vector1Prom: 0,
     Vector2Prom: 0,
     Vector5Prom: 0,
@@ -26,6 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
     Vector10Prom: 0,
     Vector11Prom: 0,
     Vector12Prom: 0,
+    Vector13Prom: 0,
+    Vector14Prom: 0,
+    Vector15Prom: 0,
+    Vector16Prom: 0,
 
     receivingVector: 1,
     aux: 0,
@@ -36,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     { vendorId: '1A86', productIds: ['7584', '5584', '5523', '752d', '7523', 'e008', '7522'] },
     { vendorId: '10C4', productIds: ['EA60'] }
   ]
-  let prueba = 1, Xacel = 0, Yacel = 0, Zacel = 0, XGir = 0, YGir = 0, ZGir = 0, Xacel2 = 0, Yacel2 = 0, Zacel2 = 0, XGir2 = 0, YGir2 = 0, ZGir2 = 0;
-  const labels = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5, 26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41, 41.5, 42, 42.5, 43, 43.5, 44, 44.5, 45, 45.5, 46, 46.5, 47, 47.5, 48, 48.5, 49, 49.5, 50];
+  let prueba = 1, Xacel = 0, Yacel = 0, Zacel = 0, XGir = 0, YGir = 0, ZGir = 0, Xacel2 = 0, Yacel2 = 0, Zacel2 = 0, XGir2 = 0, YGir2 = 0, ZGir2 = 0, Xinclin1 = 0, Yinclin1 = 0, Xinclin2 = 0, Yinclin2 = 0;
+  const labels = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21, 21.5, 22, 22.5, 23, 23.5, 24, 24.5, 25, 25.5, 26, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 35.5, 36, 36.5, 37, 37.5, 38, 38.5, 39, 39.5, 40, 40.5, 41, 41.5, 42, 42.5, 43, 43.5, 44, 44.5, 45, 45.5, 46, 46.5, 47, 47.5, 48, 48.5, 49, 49.5, 50];
   // --- Elementos UI --- 
   const PORTID = document.getElementById("port");
   const toggleBtn = document.getElementById("Modo Oscuro");
@@ -71,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const Mode = document.getElementById("mode");
   const time = document.getElementById("time");
 
-  function CreateChart(chartId, name) {
+  function CreateChart(chartId, name, max, min) {
   const ctx = document.getElementById(chartId).getContext("2d");
 
     return new Chart(ctx, {
@@ -90,8 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
         scales: {
           y: {
             beginAtZero: true,
-            max: 30,
-            min: -30,
+            max: max,
+            min: min,
             title: { display: true, text: name, color: "#222" },
             ticks: { color: "#222" }
           },
@@ -117,18 +125,22 @@ document.addEventListener("DOMContentLoaded", () => {
     PORTID.className = "badge bg-warning text-dark p-2 fs-6";
   }
   // --- Chart ---
-  const myChart = CreateChart("myChart", "Aceleracion Z");
-  const myChart2 = CreateChart("myChart2", "Aceleracion X");
-  const myChart3 = CreateChart("myChart3", "Aceleracion Y");
-  const myChart4 = CreateChart("myChart4", "Giroscopio X");
-  const myChart5 = CreateChart("myChart5", "Giroscopio Y");
-  const myChart6 = CreateChart("myChart6", "Giroscopio Z");
-  const myChart7 = CreateChart("myChart7", "Aceleracion X");
-  const myChart8 = CreateChart("myChart8", "Aceleracion Y");
-  const myChart9 = CreateChart("myChart9", "Aceleracion Z");
-  const myChart10 = CreateChart("myChart10", "Giroscopio Z");
-  const myChart11 = CreateChart("myChart11", "Giroscopio X");
-  const myChart12 = CreateChart("myChart12", "Giroscopio Y");
+  const myChart = CreateChart("myChart", "Aceleracion Z", 30, -30);
+  const myChart2 = CreateChart("myChart2", "Aceleracion X", 30, -30);
+  const myChart3 = CreateChart("myChart3", "Aceleracion Y", 30, -30);
+  const myChart4 = CreateChart("myChart4", "Giroscopio X", 100, -100);
+  const myChart5 = CreateChart("myChart5", "Giroscopio Y", 100, -100);
+  const myChart6 = CreateChart("myChart6", "Giroscopio Z", 100, -100);
+  const myChart7 = CreateChart("myChart7", "Aceleracion X", 30, -30);
+  const myChart8 = CreateChart("myChart8", "Aceleracion Y", 30, -30);
+  const myChart9 = CreateChart("myChart9", "Aceleracion Z", 30, -30);
+  const myChart10 = CreateChart("myChart10", "Giroscopio Z", 100, -100);
+  const myChart11 = CreateChart("myChart11", "Giroscopio X", 100, -100);
+  const myChart12 = CreateChart("myChart12", "Giroscopio Y", 100, -100);
+  const myChart13 = CreateChart("myChart13", "Inclinacion X", 360, -360);
+  const myChart14 = CreateChart("myChart14", "Inclinacion Y", 360, -360);
+  const myChart15 = CreateChart("myChart15", "Inclinacion X", 360, -360);
+  const myChart16 = CreateChart("myChart16", "Inclinacion Y", 360, -360);
 
   // --- Tema ---
   function aplicarTema(modoOscuro) {
@@ -243,9 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(data);
       if (!data) return;
       if (data === "0x68") {
-        estado.MPU = 1;
-      } else if (data === "0x69") {
+        estado.MPU = 1; 
+      } else if (data === "MMA") {
         estado.MPU = 2;
+      } else if (data === "0x69") {
+        estado.MPU = 3;
       }
       if (estado.MPU === 1) {
         if (data.toUpperCase() === "ACELZ") {
@@ -268,6 +282,20 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       } else if (estado.MPU === 2) {
+        if (data.toUpperCase() === "ANGX1") {
+          estado.receivingVector = 13;
+          return;
+        } else if (data.toUpperCase() === "ANGY1") {
+          estado.receivingVector = 14;
+          return;
+        } else if (data.toUpperCase() === "ANGX2") {
+          estado.receivingVector = 15;
+          return;
+        } else if (data.toUpperCase() === "ANGY2") {
+          estado.receivingVector = 16;
+          return;
+        }
+      } else if (estado.MPU === 3) {
         if (data.toUpperCase() === "ACELZ") {
           estado.receivingVector = 7;
           return;
@@ -331,7 +359,29 @@ document.addEventListener("DOMContentLoaded", () => {
           actualizarTabla(tablaBody6, estado.dataVector6);
           Graficar(myChart6, estado.dataVector6);
         }
-      } else if (estado.MPU === 2) {
+      } else if (estado.MPU === 2) { //inclinacion
+          if (estado.receivingVector === 13 && estado.dataVector13.length < numValores) {
+          estado.dataVector13.push(numericData);
+          Xinclin1 = numericData;
+          window.apiSerial.datoBase({ Sensor:"MMA1", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
+          Graficar(myChart13, estado.dataVector13);
+        } else if (estado.receivingVector === 14 && estado.dataVector14.length < numValores) {
+          estado.dataVector14.push(numericData);
+          Yinclin1 = numericData;
+          window.apiSerial.datoBase({ Sensor:"MMA1", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
+          Graficar(myChart14, estado.dataVector14);
+        } else if (estado.receivingVector === 15 && estado.dataVector15.length < numValores) {
+          estado.dataVector15.push(numericData);
+          Xinclin2 = numericData;
+          window.apiSerial.datoBase({ Sensor:"MMA2", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
+          Graficar(myChart15, estado.dataVector15);
+        } else if (estado.receivingVector === 16 && estado.dataVector16.length < numValores) {
+          estado.dataVector16.push(numericData); 
+          Yinclin2 = numericData;
+          window.apiSerial.datoBase({ Sensor:"MMA2", Prueba:prueba, AceleracionX:Xacel, AceleracionY:Yacel, AceleracionZ:Zacel, GiroscopioX:XGir, GiroscopioY:YGir, GiroscopioZ:ZGir});
+          Graficar(myChart16, estado.dataVector16);
+        }
+      } else if (estado.MPU === 3) {
         if (estado.receivingVector === 7 && estado.dataVector7.length < numValores) {
           estado.dataVector7.push(numericData);
           XAcel = numericData;
@@ -395,6 +445,14 @@ document.addEventListener("DOMContentLoaded", () => {
               valMostrado10.textContent = Vector11Prom.toFixed(3);
               Vector12Prom = estado.dataVector12.reduce((a, b) => a + b, 0) / estado.dataVector12.length;
               valMostrado11.textContent = Vector12Prom.toFixed(3);
+              Vector13Prom = estado.dataVector13.reduce((a, b) => a + b, 0) / estado.dataVector13.length;
+              valMostrado12.textContent = Vector13Prom.toFixed(3);
+              Vector14Prom = estado.dataVector14.reduce((a, b) => a + b, 0) / estado.dataVector14.length;
+              valMostrado13.textContent = Vector14Prom.toFixed(3);
+              Vector15Prom = estado.dataVector15.reduce((a, b) => a + b, 0) / estado.dataVector15.length;
+              valMostrado14.textContent = Vector15Prom.toFixed(3);
+              Vector16Prom = estado.dataVector16.reduce((a, b) => a + b, 0) / estado.dataVector16.length;
+              valMostrado15.textContent = Vector16Prom.toFixed(3);
             }
           }
         }
@@ -436,7 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Iniciando captura de datos...");
     window.apiSerial.enviarDato(Mode.value + ',');
     window.apiSerial.enviarDato(time.value + '\n');
-    numValores = (parseInt(time.value)) * 2;
+    numValores = ((parseInt(time.value)) * 4);
 
     estado.dataVector1 = [];
     estado.dataVector2 = [];
@@ -472,6 +530,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
     } else if (estado.MPU === 2) {
+      if (data.toUpperCase() === "ANGX1") {
+        estado.receivingVector = 13;
+        return;
+      } else if (data.toUpperCase() === "ANGY1") {
+        estado.receivingVector = 14;
+        return;
+      } else if (data.toUpperCase() === "ANGX2") {
+        estado.receivingVector = 15;
+        return;
+      } else if (data.toUpperCase() === "ANGY2") {
+        estado.receivingVector = 16;
+        return;
+      }
+    } else if (estado.MPU === 3) {
       if (data.toUpperCase() === "ACELZ") {
         estado.receivingVector = 7;
         return;
@@ -505,6 +577,11 @@ document.addEventListener("DOMContentLoaded", () => {
     myChart10.data.datasets[0].data = [];
     myChart11.data.datasets[0].data = [];
     myChart12.data.datasets[0].data = [];
+    myChart13.data.datasets[0].data = [];
+    myChart14.data.datasets[0].data = [];
+    myChart15.data.datasets[0].data = [];
+    myChart16.data.datasets[0].data = [];
+    
 
     myChart.update();
     myChart2.update();
@@ -518,6 +595,10 @@ document.addEventListener("DOMContentLoaded", () => {
     myChart10.update();
     myChart11.update();
     myChart12.update();
+    myChart13.update();
+    myChart14.update();
+    myChart15.update();
+    myChart16.update();
 
     tablaBody1.innerHTML = "";
     tablaBody2.innerHTML = "";
